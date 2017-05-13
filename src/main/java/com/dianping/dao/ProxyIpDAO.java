@@ -1,9 +1,11 @@
-package com.lin.dao;
+package com.dianping.dao;
+
+import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 
-import com.lin.domain.ProxyIpInfo;
-import com.lin.domain.ProxyList;
+import com.dianping.model.ProxyIpInfo;
+import com.dianping.model.ProxyList;
 
 
 
@@ -19,7 +21,7 @@ public interface ProxyIpDAO {
      * 取数据库里所有的数据
      * @return
      */
-    public ProxyList selectAll();
+    public List<ProxyIpInfo> selectAll();
     
     
     

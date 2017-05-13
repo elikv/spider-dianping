@@ -1,4 +1,4 @@
-package com.lin.domain;
+package com.dianping.model;
 
 /**
  * User映射类

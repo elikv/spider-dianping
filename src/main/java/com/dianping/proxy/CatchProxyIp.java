@@ -1,4 +1,4 @@
-package com.lin.proxy;
+package com.dianping.proxy;
 
 
 
@@ -7,10 +7,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import com.lin.domain.ProxyIpInfo;
-import com.lin.domain.ProxyList;
-import com.lin.service.ProxyIpService;
-import com.lin.util.IfTrueProxy;
+import com.dianping.model.ProxyIpInfo;
+import com.dianping.model.ProxyList;
+import com.dianping.service.ProxyIpService;
+import com.dianping.util.IfTrueProxy;
 
 
 /**
@@ -53,7 +53,7 @@ public class CatchProxyIp implements Runnable {
 					int port = Integer.valueOf(proxyList.getIpVector().get(i).split(":")[1]);
 					synchronized(proxyList){
 						if (IfTrueProxy.createIPAddress(ip, port)) {
-							proxyList.getSuccessIPSet().add(proxyList.getIpVector().get(i));
+							proxyList.getSuccessIPVector().add(proxyList.getIpVector().get(i));
 							ProxyIpInfo proxyIpInfo = new ProxyIpInfo();
 							proxyIpInfo.setIp(ip);
 							proxyIpInfo.setPort(port);
@@ -61,8 +61,8 @@ public class CatchProxyIp implements Runnable {
 								proxyIpService.add(proxyIpInfo);
 							}
 						System.out.println("*************************");
-						System.out.println("可用数目： " + proxyList.getSuccessIPSet().size());
-						for (String proxyIPq : proxyList.getSuccessIPSet()) {
+						System.out.println("可用数目： " + proxyList.getSuccessIPVector().size());
+						for (String proxyIPq : proxyList.getSuccessIPVector()) {
 							System.out.println(proxyIPq);
 						}
 				}
@@ -75,7 +75,7 @@ public class CatchProxyIp implements Runnable {
 					int port = Integer.valueOf(proxyList.getIpVector().get(i).split(":")[1]);
 //					synchronized(proxyIpInfo){
 						if (IfTrueProxy.createIPAddress(ip, port)) {
-							proxyList.getSuccessIPSet().add(proxyList.getIpVector().get(i));
+							proxyList.getSuccessIPVector().add(proxyList.getIpVector().get(i));
 							ProxyIpInfo proxyIpInfo = new ProxyIpInfo();
 							proxyIpInfo.setIp(ip);
 							proxyIpInfo.setPort(port);
@@ -84,8 +84,8 @@ public class CatchProxyIp implements Runnable {
 							}
 
 						System.out.println("*************************");
-						System.out.println("可用数目： " + proxyList.getSuccessIPSet().size());
-						for (String proxyIPq : proxyList.getSuccessIPSet()) {
+						System.out.println("可用数目： " + proxyList.getSuccessIPVector().size());
+						for (String proxyIPq : proxyList.getSuccessIPVector()) {
 							System.out.println(proxyIPq);
 						}
 				}
@@ -98,7 +98,7 @@ public class CatchProxyIp implements Runnable {
 					int port = Integer.valueOf(proxyList.getIpVector().get(i).split(":")[1]);
 //					synchronized(proxyList){
 						if (IfTrueProxy.createIPAddress(ip, port)) {
-							proxyList.getSuccessIPSet().add(proxyList.getIpVector().get(i));
+							proxyList.getSuccessIPVector().add(proxyList.getIpVector().get(i));
 							ProxyIpInfo proxyIpInfo = new ProxyIpInfo();
 							proxyIpInfo.setIp(ip);
 							proxyIpInfo.setPort(port);
@@ -107,8 +107,8 @@ public class CatchProxyIp implements Runnable {
 							}
 //						}
 						System.out.println("*************************");
-						System.out.println("可用数目： " + proxyList.getSuccessIPSet().size());
-						for (String proxyIPq : proxyList.getSuccessIPSet()) {
+						System.out.println("可用数目： " + proxyList.getSuccessIPVector().size());
+						for (String proxyIPq : proxyList.getSuccessIPVector()) {
 							System.out.println(proxyIPq);
 						}
 				}
@@ -122,7 +122,7 @@ public class CatchProxyIp implements Runnable {
 					int port = Integer.valueOf(proxyList.getIpVector().get(i).split(":")[1]);
 //					synchronized(proxyList){
 						if (IfTrueProxy.createIPAddress(ip, port)) {
-							proxyList.getSuccessIPSet().add(proxyList.getIpVector().get(i));
+							proxyList.getSuccessIPVector().add(proxyList.getIpVector().get(i));
 							ProxyIpInfo proxyIpInfo = new ProxyIpInfo();
 							proxyIpInfo.setIp(ip);
 							proxyIpInfo.setPort(port);
@@ -131,8 +131,8 @@ public class CatchProxyIp implements Runnable {
 							}
 //						}
 						System.out.println("*************************");
-						System.out.println("可用数目： " + proxyList.getSuccessIPSet().size());
-						for (String proxyIPq : proxyList.getSuccessIPSet()) {
+						System.out.println("可用数目： " + proxyList.getSuccessIPVector().size());
+						for (String proxyIPq : proxyList.getSuccessIPVector()) {
 							System.out.println(proxyIPq);
 						}
 				}

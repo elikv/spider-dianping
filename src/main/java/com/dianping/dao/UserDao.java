@@ -1,7 +1,7 @@
-package com.lin.dao;
+package com.dianping.dao;
 
 
-import com.lin.domain.User;
+import com.dianping.model.User;
 
 /**
  * 功能概要：User的DAO类

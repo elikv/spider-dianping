@@ -1,4 +1,4 @@
-package com.lin.main;
+package com.dianping.main;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,15 +7,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.lin.domain.ProxyList;
-import com.lin.proxy.CatchProxyIp;
-import com.lin.proxy.FindProxyWeb;
-import com.lin.service.ProxyIpService;
+import com.dianping.model.ProxyList;
+import com.dianping.proxy.CatchProxyIp;
+import com.dianping.proxy.FindProxyWeb;
+import com.dianping.service.ProxyIpService;
 
 
 @Component
 public class MainProxyIp {
-//    @Qualifier("ProxyIpServiceImpl")
     @Autowired
     private ProxyIpService proxyIpService;
     

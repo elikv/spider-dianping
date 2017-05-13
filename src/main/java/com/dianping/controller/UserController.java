@@ -1,4 +1,4 @@
-package com.lin.controller;
+package com.dianping.controller;
 
 import javax.annotation.Resource;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lin.domain.User;
-import com.lin.service.UserService;
+import com.dianping.model.User;
+import com.dianping.service.UserService;
 
 /**
  * 功能概要：UserController

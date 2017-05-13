@@ -1,8 +1,9 @@
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.dianping.model.ProxyIpInfo;
+import com.dianping.service.ProxyIpService;
 import com.lin.baseTest.SpringTestCase;
-import com.lin.domain.ProxyIpInfo;
-import com.lin.service.ProxyIpService;
 
 public class insertTest extends SpringTestCase {
 	@Autowired

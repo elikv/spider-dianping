@@ -6,8 +6,9 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.dianping.model.User;
+import com.dianping.service.UserService;
 import com.lin.baseTest.SpringTestCase;
-import com.lin.domain.User;
 
 /**
  * 功能概要：UserService单元测试

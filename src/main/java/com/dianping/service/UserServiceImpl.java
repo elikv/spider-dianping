@@ -1,10 +1,10 @@
-package com.lin.service;
+package com.dianping.service;
 
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
-import com.lin.dao.UserDao;
-import com.lin.domain.User;
+import com.dianping.dao.UserDao;
+import com.dianping.model.User;
 
 /**
  * 功能概要：UserService实现类

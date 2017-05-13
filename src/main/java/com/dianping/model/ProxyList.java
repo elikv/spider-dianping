@@ -1,24 +1,24 @@
-package com.lin.domain;
+package com.dianping.model;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArraySet;
 /**
- * 该实体类包含一个待测Vector和一个可用Set
+ * 该实体类包含一个待测Vector和一个可用Vector
  * @author elikv
  *
  */
 public class ProxyList {
 	
-	private CopyOnWriteArraySet<String> successIPSet = new CopyOnWriteArraySet<>();
+	private Vector<String> successIPVector= new Vector<>();
 	private Vector<String> ipVector = new Vector<>();
-	public CopyOnWriteArraySet<String> getSuccessIPSet() {
-		return successIPSet;
+	public Vector<String> getSuccessIPVector() {
+		return successIPVector;
 	}
 
-	public void setSuccessIPSet(CopyOnWriteArraySet<String> successIPSet) {
-		this.successIPSet = successIPSet;
+	public void setSuccessIPVector(Vector<String> successIPVector) {
+		this.successIPVector = successIPVector;
 	}
 
 	public Vector<String> getIpVector() {

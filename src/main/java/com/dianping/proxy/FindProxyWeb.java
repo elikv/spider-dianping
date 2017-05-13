@@ -1,4 +1,4 @@
-package com.lin.proxy;
+package com.dianping.proxy;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -9,8 +9,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.lin.domain.ProxyList;
-import com.lin.util.UserAgentUtils;
+import com.dianping.model.ProxyList;
+import com.dianping.util.UserAgentUtils;
 
 
 public class FindProxyWeb {

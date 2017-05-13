@@ -1,7 +1,9 @@
-package com.lin.service;
+package com.dianping.service;
 
-import com.lin.domain.ProxyIpInfo;
-import com.lin.domain.ProxyList;
+import java.util.List;
+
+import com.dianping.model.ProxyIpInfo;
+import com.dianping.model.ProxyList;
 
 public interface ProxyIpService {
 	//加入数据库

@@ -1,8 +1,8 @@
-package com.lin.service;
+package com.dianping.service;
 
 import org.springframework.stereotype.Service;
 
-import com.lin.domain.User;
+import com.dianping.model.User;
 
 /**
  * 功能概要：UserService接口类

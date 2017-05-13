@@ -1,4 +1,4 @@
-package com.lin.util;
+package com.dianping.util;
 
 import java.util.ArrayList;
 import java.util.List;

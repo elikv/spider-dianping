@@ -1,5 +1,12 @@
-package com.lin.domain;
+package com.dianping.model;
 
+
+
+/**
+ * ip与port
+ * @author elikv
+ *
+ */
 public class ProxyIpInfo {
 	
 	private String ip;

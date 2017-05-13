@@ -1,12 +1,14 @@
-package com.lin.service;
+package com.dianping.service;
 
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lin.dao.ProxyIpDAO;
-import com.lin.domain.ProxyIpInfo;
-import com.lin.domain.ProxyList;
+import com.dianping.dao.ProxyIpDAO;
+import com.dianping.model.ProxyIpInfo;
+import com.dianping.model.ProxyList;
 
 @Service
 public class ProxyIpServiceImpl implements ProxyIpService {
@@ -23,8 +25,13 @@ public class ProxyIpServiceImpl implements ProxyIpService {
 
 	@Override
 	public ProxyList selectAll() {
-		proxyIpDao
-		return null;
+		List<ProxyIpInfo> selectAll = proxyIpDao.selectAll();
+		ProxyList proxyList = new ProxyList();
+
+		for(ProxyIpInfo proxyIpInfo : selectAll){
+		proxyList.getSuccessIPVector().add(proxyIpInfo.getIp()+":"+proxyIpInfo.getPort());
+		}
+		return proxyList;
 	}
 
 }
