@@ -1,3 +1,5 @@
+import java.util.Vector;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,7 +14,9 @@ public class selectTest  extends SpringTestCase{
 	private ProxyIpService proxyIpService;
 	@Test
 	public void startSelect(){
-		ProxyList proxyList = proxyIpService.selectAll();
+		Vector<String> vector = proxyIpService.setSuccessIPVector();
+		ProxyList proxyList = new ProxyList();
+		proxyList.setSuccessIPVector(vector);
 		
 		
 		

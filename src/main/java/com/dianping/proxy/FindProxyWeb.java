@@ -12,7 +12,13 @@ import java.util.regex.Pattern;
 import com.dianping.model.ProxyList;
 import com.dianping.util.UserAgentUtils;
 
-
+/**
+ * 在66ip网上读取代理ip,并放入ProxyList的待测Vector
+ * 
+ * @author elikv
+ * @return 返回待测Vector
+ *
+ */
 public class FindProxyWeb {
 	public static Vector<String> find(ProxyList proxyList){
 		String url2 = "http://www.66ip.cn/nmtq.php?getnum=800&isp=0&"

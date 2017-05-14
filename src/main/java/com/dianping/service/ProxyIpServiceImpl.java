@@ -2,6 +2,7 @@ package com.dianping.service;
 
 
 import java.util.List;
+import java.util.Vector;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,14 +25,14 @@ public class ProxyIpServiceImpl implements ProxyIpService {
 	}
 
 	@Override
-	public ProxyList selectAll() {
+	public Vector<String> setSuccessIPVector() {
 		List<ProxyIpInfo> selectAll = proxyIpDao.selectAll();
-		ProxyList proxyList = new ProxyList();
+		Vector<String> vector = new Vector<String>();
 
 		for(ProxyIpInfo proxyIpInfo : selectAll){
-		proxyList.getSuccessIPVector().add(proxyIpInfo.getIp()+":"+proxyIpInfo.getPort());
+			vector.add(proxyIpInfo.getIp()+":"+proxyIpInfo.getPort());
 		}
-		return proxyList;
+		return vector;
 	}
 
 }
