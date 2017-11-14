@@ -26,7 +26,7 @@ public class RestaurantCrawler {
     private PageModelPipeline dianPingDaoPipeline;
 
     public void crawl() {
-        OOSpider.create(Site.me()
+        OOSpider.create(Site.me().setSleepTime(1800).setRetryTimes(3)
                 .setUserAgent(UserAgentUtils.radomUserAgent()),dianPingDaoPipeline, DianPingInfo.class)
                 .addUrl("http://www.dianping.com/search/category/1/10/g101o3p1")
                 .thread(5)

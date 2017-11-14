@@ -12,10 +12,10 @@
 	<insert id="add" parameterType="com.dianping.model.ProxyIpInfo" >
 		insert
 			 into 
-		proxyipinfo
-			 (ip,port)
+		t_proxy
+			 (ip,port,flag)
 		 values
-		    (#{ip},#{port})
+		    (#{ip},#{port},'1')
 
 	</insert>
 	
@@ -23,7 +23,7 @@
 	select
 		*
 	from
-		proxyipinfo
+		t_proxy
 	where
 		1=1
 	
