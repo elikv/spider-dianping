@@ -21,7 +21,7 @@ import com.dianping.util.UserAgentUtils;
  */
 public class FindProxyWeb {
 	public static Vector<String> find(ProxyList proxyList){
-		String url2 = "http://www.66ip.cn/nmtq.php?getnum=800&isp=0&"
+		String url2 = "http://www.66ip.cn/nmtq.php?getnum=5000&isp=0&"
 				+ "anonymoustype=0&start=&ports=&export=&ipaddress=&area=1&proxytype=2&api=66ip";
 	try{
 		URL url = new URL(url2);

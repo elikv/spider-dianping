@@ -64,6 +64,7 @@ public class CatchProxyIpRunnable implements Runnable {
 						if(every==proxyIp){
 							System.out.println("数据库中已存在"+every);
 							repeat =true;
+							break;
 						}
 					}
 					if(repeat ){
@@ -71,7 +72,7 @@ public class CatchProxyIpRunnable implements Runnable {
 					}
 					String ip = proxyIp.split(":")[0];
 					int port = Integer.valueOf(proxyIp.split(":")[1]);
-					synchronized(proxyList){
+					
 						if (IfTrueProxy.createIPAddress(ip, port)) {
 							proxyList.getSuccessIPVector().add(proxyList.getIpVector().get(i));
 							ProxyIpInfo proxyIpInfo = new ProxyIpInfo();
@@ -87,7 +88,7 @@ public class CatchProxyIpRunnable implements Runnable {
 						}
 				}
 			}
-			}
+			
 			}
 			}
 

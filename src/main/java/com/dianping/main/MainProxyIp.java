@@ -48,7 +48,7 @@ public class MainProxyIp {
 		ApplicationContext applicationContext =
 				new ClassPathXmlApplicationContext("classpath:application*.xml");
 		 final MainProxyIp mainProxyIp = applicationContext.getBean(MainProxyIp.class);
-		 mainProxyIp.startFind(5);
+		 mainProxyIp.startFind(50);
 	
 	}
 
