@@ -6,12 +6,13 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import com.dianping.model.ProxyIpInfo;
 import com.dianping.model.ProxyList;
 import com.dianping.service.ProxyIpService;
 import com.dianping.util.IfTrueProxy;
+
+import us.codecraft.webmagic.proxy.Proxy;
 
 
 /**
@@ -64,6 +65,7 @@ public class CatchProxyIpRunnable implements Runnable {
 						if(every==proxyIp){
 							System.out.println("数据库中已存在"+every);
 							repeat =true;
+							break;
 						}
 					}
 					if(repeat ){
@@ -71,12 +73,10 @@ public class CatchProxyIpRunnable implements Runnable {
 					}
 					String ip = proxyIp.split(":")[0];
 					int port = Integer.valueOf(proxyIp.split(":")[1]);
-					synchronized(proxyList){
+					
 						if (IfTrueProxy.createIPAddress(ip, port)) {
 							proxyList.getSuccessIPVector().add(proxyList.getIpVector().get(i));
-							ProxyIpInfo proxyIpInfo = new ProxyIpInfo();
-							proxyIpInfo.setIp(ip);
-							proxyIpInfo.setPort(port);
+							ProxyIpInfo proxyIpInfo = new ProxyIpInfo(ip,port);
 							synchronized(proxyIpInfo){
 								proxyIpService.add(proxyIpInfo);
 							}
@@ -87,7 +87,7 @@ public class CatchProxyIpRunnable implements Runnable {
 						}
 				}
 			}
-			}
+			
 			}
 			}
 

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dianping.dao.ProxyIpDAO;
+
 import com.dianping.model.ProxyIpInfo;
-import com.dianping.model.ProxyList;
 
 @Service
 public class ProxyIpServiceImpl implements ProxyIpService {
@@ -20,17 +20,17 @@ public class ProxyIpServiceImpl implements ProxyIpService {
 	@Override
 	public void add(ProxyIpInfo proxyIpInfo) {
 		proxyIpDao.add(proxyIpInfo);
-		System.out.println("正在添加"+proxyIpInfo.getIp());
+		System.out.println("正在添加"+proxyIpInfo.getHost());
 
 	}
 
 	@Override
 	public Vector<String> setSuccessIPVector() {
-		List<ProxyIpInfo> selectAll = proxyIpDao.selectAll();
+		List<ProxyIpInfo> selectAll = proxyIpDao.selectAllValid();
 		Vector<String> vector = new Vector<String>();
 
 		for(ProxyIpInfo proxyIpInfo : selectAll){
-			vector.add(proxyIpInfo.getIp()+":"+proxyIpInfo.getPort());
+			vector.add(proxyIpInfo.getHost()+":"+proxyIpInfo.getPort());
 		}
 		return vector;
 	}

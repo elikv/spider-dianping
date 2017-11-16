@@ -1,9 +1,6 @@
 package com.dianping.model;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
-import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * 该实体类包含一个待测Vector和一个可用Vector
  * @author elikv

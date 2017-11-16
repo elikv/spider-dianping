@@ -1,10 +1,9 @@
 package com.dianping.service;
 
-import java.util.List;
 import java.util.Vector;
 
 import com.dianping.model.ProxyIpInfo;
-import com.dianping.model.ProxyList;
+
 
 public interface ProxyIpService {
 	/**

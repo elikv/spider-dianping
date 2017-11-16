@@ -2,10 +2,9 @@ package com.dianping.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
 
 import com.dianping.model.ProxyIpInfo;
-import com.dianping.model.ProxyList;
+
 
 
 
@@ -21,7 +20,7 @@ public interface ProxyIpDAO {
      * 取数据库里所有的数据
      * @return
      */
-    public List<ProxyIpInfo> selectAll();
+    public List<ProxyIpInfo> selectAllValid();
     
     
     

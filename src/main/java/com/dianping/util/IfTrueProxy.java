@@ -35,7 +35,7 @@ public class IfTrueProxy {
         try {
         URLConnection conn = url.openConnection(proxy);
         conn.setRequestProperty("User-Agent", UserAgentUtils.radomUserAgent());
-		conn.setReadTimeout(1000*20);
+		conn.setReadTimeout(1000*5);
 		conn.setConnectTimeout(1000*20);
         in = conn.getInputStream();
         } catch (Exception e) {
@@ -74,5 +74,7 @@ public class IfTrueProxy {
         return sb.toString();
  
         }
+    
+    
 
 }

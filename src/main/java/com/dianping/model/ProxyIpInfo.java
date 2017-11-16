@@ -1,27 +1,18 @@
 package com.dianping.model;
 
+import lombok.Data;
 
-
-/**
- * ip与port
- * @author elikv
- *
- */
+@Data
 public class ProxyIpInfo {
-	
-	private String ip;
+	private String host;
 	private int port;
-	public String getIp() {
-		return ip;
+	
+	public ProxyIpInfo(String host,int port){
+		this.host = host ;
+		this.port = port ;
 	}
-	public void setIp(String ip) {
-		this.ip = ip;
+	public ProxyIpInfo(){
+		this.host = host ;
+		this.port = port ;
 	}
-	public int getPort() {
-		return port;
-	}
-	public void setPort(int port) {
-		this.port = port;
-	}
-
 }

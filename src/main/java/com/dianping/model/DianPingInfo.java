@@ -11,13 +11,13 @@ import us.codecraft.webmagic.model.annotation.TargetUrl;
 @HelpUrl("http://www.dianping.com/search/category/1/10/g\\d+o3p\\d+")
 public class DianPingInfo implements AfterExtractor  {
 	@ExtractBy("//div[@class=\"basic-info\"]/h1[@class=\"shop-name\"]/text()")
-	private String title="";
+	private String shopName;
 	
 	@ExtractBy("//div[@class=\"brief-info\"]/span[@id=\"reviewCount\"]/text()")
-	private String comments="";
+	private String comment;
 	
 	@ExtractBy("//div[@class=\"brief-info\"]/span[@id=\"avgPriceTitle\"]/text()")
-	private String average="";
+	private String average;
 	
 	//brief-info\"]/span[@id=\"comment_score\"]/allText()
 	@ExtractBy("//div[@class=\"brief-info\"]/span[@id=\"comment_score\"]/allText()")
@@ -25,23 +25,24 @@ public class DianPingInfo implements AfterExtractor  {
     //	private String comment_score2=List2StringUtil.listToString(comment_score);
 	
 	@ExtractBy("//div[@class=\"expand-info address\"]/span[@class=\"item\"]/text()")
-	private String address="";
+	private String address;
 	//div[@class=\"breadcrumb\"]/allText()
 	@ExtractBy("//div[@class=\"breadcrumb\"]/allText()")
-	private String styleAndTag;
+	private String tag;
     //	private String styleAndTag2=List2StringUtil.listToString(styleAndTag);
 	
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	private String url;
+	
+	private String taste;
+	private String env;
+	private String url;
+	
+	
 	public String getComments() {
-		return comments;
+		return comment;
 	}
 	public void setComments(String comments) {
-		this.comments = comments;
+		this.comment = comments;
 	}
 	public String getAverage() {
 		return average;
@@ -62,21 +63,21 @@ public class DianPingInfo implements AfterExtractor  {
 		this.address = address;
 	}
 	public String getStyleAndTag() {
-		return styleAndTag;
+		return tag;
 	}
 	public void setStyleAndTag(String styleAndTag) {
-		this.styleAndTag = styleAndTag;
+		this.tag = styleAndTag;
 	}
 	
 	   @Override
 	    public String toString() {
 	        return "DianPingInfo{" +
 	                "title='" + title + '\'' +
-	                ", comments='" + comments + '\'' +
+	                ", comments='" + comment + '\'' +
 	                ", average='" + average + '\'' +
 	                ", comment_score='" + comment_score+ '\'' +
 	                ", address='" + address + '\'' +
-	                ", styleAndTag='" + styleAndTag + '\'' +
+	                ", styleAndTag='" + tag + '\'' +
 	                '}';
 	    }
 	@Override
@@ -84,7 +85,7 @@ public class DianPingInfo implements AfterExtractor  {
 //		System.out.println(  average  );
 //		average=average.split("：")[1].split("元")[0];
 //		System.out.println(  average  );
-		
+		url = page.getRequest().getUrl();
 	}
 
 	
