@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.lin</groupId>
-	<artifactId>ssm_project</artifactId>
+	<groupId>com.dianping</groupId>
+	<artifactId>spider-dianping</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<properties>
@@ -22,13 +22,13 @@
 	<!-- webgic框架 -->
 			<groupId>us.codecraft</groupId>
 			<artifactId>webmagic-core</artifactId>
-			<version>0.6.1</version>
+			<version>0.7.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>us.codecraft</groupId>
 			<artifactId>webmagic-extension</artifactId>
-			<version>0.6.1</version>
+			<version>0.7.0</version>
 		</dependency>
 	
 		<!-- 添加Spring依赖 -->
@@ -134,27 +134,41 @@
 			<version>5.1.29</version>
 		</dependency>
 		
-    <!-- javaee-api包 注意和项目使用的JDK版本对应 -->
+    <!-- javaee-api包 注意和项目使用的JDK版本对应 
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
 			<version>6.0</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- javaee-web-api包 注意和项目使用的JDK版本对应 -->
+-->
+		<!-- javaee-web-api包 注意和项目使用的JDK版本对应
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
 			<version>6.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+		 -->
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>1.16.16</version>
     </dependency>
+    
+    <dependency>
+    <groupId>com.virjar</groupId>
+    <artifactId>dungproxy-client</artifactId>
+    <version>0.0.6</version>
+</dependency>
+
+<!-- 适用于0.7.0 -->
+<dependency>
+  <groupId>com.virjar</groupId>
+  <artifactId>dungproxy-webmagic7</artifactId>
+  <version>0.0.3</version>
+</dependency>
+    
 	</dependencies>
 
 </project>
