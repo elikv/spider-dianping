@@ -4,7 +4,7 @@
 <mapper namespace="com.dianping.dao.ProxyIpDAO">
 <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ -->
 	<resultMap id="BaseResultMap" type="com.dianping.model.ProxyIpInfo">
-		<id column="host" property="host" jdbcType="VARCHAR" />
+		<id column="ip" property="ip" jdbcType="VARCHAR" />
 		<result column="port" property="port" jdbcType="INTEGER" />
 	</resultMap>
 	
@@ -13,20 +13,19 @@
 		insert
 			 into 
 		t_proxy
-			 (host,port,flag)
+			 (ip,port,flag)
 		 values
-		    (#{host},#{port},'1')
+		    (#{ip},#{port},'1')
 
 	</insert>
 	
-	<select id="selectAllValid"   resultType="com.dianping.model.ProxyIpInfo" >
+	<select id="selectAll"   resultType="com.dianping.model.ProxyIpInfo" >
 	select
 		*
 	from
 		t_proxy
 	where
 		1=1
-	And flag='1'
 	
 	
 	</select>
