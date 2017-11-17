@@ -21,7 +21,7 @@ public class DianPingDaoPipeline implements PageModelPipeline<DianPingInfo> {
     private DianPingDAO jobInfoDAO;
 
     public void process(DianPingInfo dianPingInfo, Task task) {
-    	System.out.println("正在添加"+dianPingInfo.getTitle());
+    	System.out.println("正在添加"+dianPingInfo.getShopName());
     	jobInfoDAO.add(dianPingInfo);
     }
 }

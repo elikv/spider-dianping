@@ -12,10 +12,10 @@
 	<insert id="add" parameterType="com.dianping.model.DianPingInfo" >
 		insert
 			 into 
-		dpinfo
-			 (title,comments,average,comment_score,address,styleAndTag)
+		t_shop
+			 (id,shopName,average,taste,env,service,address,cookStyle,comment,tag,url)
 		 values
-		    (#{title},#{comments},#{average},#{comment_score},#{address},#{styleAndTag})
+		    (uuid(),#{shopName},#{average},#{taste},#{env},#{service},#{address},#{cookStyle},#{comment},#{tag},#{url})
 
 	</insert>
 	

@@ -41,7 +41,7 @@ public class RestaurantCrawler {
 	@Autowired
 	private ProxyIpDAO proxyIpDao;
 	
-	private static final String HOST_ADDRESS="";
+	private static final String HOST_ADDRESS="123.206.206.111";
 	private static final String PASSWORD="";
 	
 

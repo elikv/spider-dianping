@@ -10,6 +10,7 @@ import us.codecraft.webmagic.model.annotation.TargetUrl;
 @TargetUrl("http://www.dianping.com/shop/\\d+")
 @HelpUrl("http://www.dianping.com/search/category/1/10/g\\d+o3p\\d+")
 public class DianPingInfo implements AfterExtractor  {
+	
 	@ExtractBy("//div[@class=\"basic-info\"]/h1[@class=\"shop-name\"]/text()")
 	private String shopName;
 	
@@ -35,14 +36,21 @@ public class DianPingInfo implements AfterExtractor  {
 	
 	private String taste;
 	private String env;
-	private String url;
+	private String service;
+	private String cookStyle;
 	
 	
-	public String getComments() {
+	public String getShopName() {
+		return shopName;
+	}
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+	public String getComment() {
 		return comment;
 	}
-	public void setComments(String comments) {
-		this.comment = comments;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	public String getAverage() {
 		return average;
@@ -62,22 +70,58 @@ public class DianPingInfo implements AfterExtractor  {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getStyleAndTag() {
+	public String getTag() {
 		return tag;
 	}
-	public void setStyleAndTag(String styleAndTag) {
-		this.tag = styleAndTag;
+	public void setTag(String tag) {
+		this.tag = tag;
 	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public String getTaste() {
+		return taste;
+	}
+	public void setTaste(String taste) {
+		this.taste = taste;
+	}
+	public String getEnv() {
+		return env;
+	}
+	public void setEnv(String env) {
+		this.env = env;
+	}
+	public String getService() {
+		return service;
+	}
+	public void setService(String service) {
+		this.service = service;
+	}
+	public String getCookStyle() {
+		return cookStyle;
+	}
+	public void setCookStyle(String cookStyle) {
+		this.cookStyle = cookStyle;
+	}
+	
+
 	
 	   @Override
 	    public String toString() {
 	        return "DianPingInfo{" +
-	                "title='" + title + '\'' +
-	                ", comments='" + comment + '\'' +
+	                "shopName='" + shopName + '\'' +
 	                ", average='" + average + '\'' +
-	                ", comment_score='" + comment_score+ '\'' +
-	                ", address='" + address + '\'' +
-	                ", styleAndTag='" + tag + '\'' +
+	                ", taste='" + taste + '\'' +
+	                ", env='" + env + '\'' +
+	                ", service='" + service + '\'' +
+	                 ", address='" + address + '\'' +
+	                  ", cookStyle='" + cookStyle + '\'' +
+	                ", comment='" + comment + '\'' +
+	                ", tag='" + tag+ '\'' +
+	                ", url='" + url + '\'' +
 	                '}';
 	    }
 	@Override
@@ -86,6 +130,8 @@ public class DianPingInfo implements AfterExtractor  {
 //		average=average.split("：")[1].split("元")[0];
 //		System.out.println(  average  );
 		url = page.getRequest().getUrl();
+		System.out.println(comment_score); 
+		System.out.println(tag); 
 	}
 
 	
