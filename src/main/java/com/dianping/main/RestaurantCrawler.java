@@ -42,7 +42,7 @@ public class RestaurantCrawler {
 	private ProxyIpDAO proxyIpDao;
 	
 	private static final String HOST_ADDRESS="123.206.206.111";
-	private static final String PASSWORD="";
+	private static final String PASSWORD="W1314zan1g";
 	
 
     public void crawl() {
@@ -52,7 +52,8 @@ public class RestaurantCrawler {
                 .setSleepTime(500)// 使用代理了之后,代理会通过切换IP来防止反扒。同时,使用代理本身qps降低了,所以这个可以小一些
                 .setCycleRetryTimes(3)// 这个重试会换IP重试,是setRetryTimes的上一层的重试,不要怕三次重试解决一切问题。。
                 .setUseGzip(true)
-                .setUserAgent(UserAgentUtils.radomUserAgent());
+                .setUserAgent(UserAgentUtils.radomUserAgent())
+                .setCharset("UTF-8");
         WhiteListProxyStrategy whiteListProxyStrategy = new WhiteListProxyStrategy();
         whiteListProxyStrategy.addAllHost("www.dianping.com");
         

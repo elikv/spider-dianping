@@ -5,7 +5,7 @@ import com.dianping.model.DianPingInfo;
 
 
 /**
- * @author code4crafer@gmail.com
+ * @author elikv
  *         Date: 13-6-23
  *         Time: 下午4:27
  */

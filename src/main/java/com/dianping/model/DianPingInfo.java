@@ -130,6 +130,11 @@ public class DianPingInfo implements AfterExtractor  {
 //		average=average.split("：")[1].split("元")[0];
 //		System.out.println(  average  );
 		url = page.getRequest().getUrl();
+		String[] split = comment_score.split(":");
+		taste=split[1].substring(0, 3);
+		env = split[2].substring(0, 3);
+		service = split[3];
+		cookStyle= tag.split(">")[1];
 		System.out.println(comment_score); 
 		System.out.println(tag); 
 	}
