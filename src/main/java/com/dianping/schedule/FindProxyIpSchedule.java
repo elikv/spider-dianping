@@ -10,7 +10,7 @@ import com.dianping.main.MainProxyIp;
 @Component
 public class FindProxyIpSchedule {
 	
-	@Scheduled(cron ="0 40/30 * * * ?")
+//	@Scheduled(cron ="0 40/30 * * * ?")
 	public void findProxyIpSchedule(){
 	ApplicationContext applicationContext =
 			new ClassPathXmlApplicationContext("classpath:application*.xml");
