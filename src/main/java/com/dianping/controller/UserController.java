@@ -1,7 +1,11 @@
 package com.dianping.controller;
 
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
+
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.dianping.main.RestaurantCrawler;
 import com.dianping.model.User;
 import com.dianping.service.UserService;
+
+import jdbc.JDBC;
 
 /**
  * 功能概要：UserController
@@ -22,6 +28,8 @@ import com.dianping.service.UserService;
 public class UserController {
 	@Resource
 	private UserService userService;
+	@Autowired
+	private JDBC jdbc;
 	
 		@RequestMapping( "/" )
 		public String showIndex(){
@@ -33,6 +41,11 @@ public class UserController {
 			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
 	        final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
 	        restaurantCrawler.crawl();
+		}
+		
+		@RequestMapping("/removeDuplicate")
+		public void removeDuplicate() throws IllegalAccessException, InvocationTargetException, SQLException{
+			jdbc.removeDuplicate();
 		}
 	
 //	@RequestMapping("/")  

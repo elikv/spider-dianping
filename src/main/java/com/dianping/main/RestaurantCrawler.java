@@ -47,9 +47,9 @@ public class RestaurantCrawler {
 
     public void crawl() {
         Site site = Site.me()// .setHttpProxy(new HttpHost("127.0.0.1",8888))
-                .setRetryTimes(3) // 就我的经验,这个重试一般用处不大,他是httpclient内部重试
-                .setTimeOut(30000)// 在使用代理的情况下,这个需要设置,可以考虑调大线程数目
-                .setSleepTime(300)// 使用代理了之后,代理会通过切换IP来防止反扒。同时,使用代理本身qps降低了,所以这个可以小一些
+                .setRetryTimes(1) // 就我的经验,这个重试一般用处不大,他是httpclient内部重试
+                .setTimeOut(25000)// 在使用代理的情况下,这个需要设置,可以考虑调大线程数目
+                .setSleepTime(200)// 使用代理了之后,代理会通过切换IP来防止反扒。同时,使用代理本身qps降低了,所以这个可以小一些
                 .setCycleRetryTimes(3)// 这个重试会换IP重试,是setRetryTimes的上一层的重试,不要怕三次重试解决一切问题。。
                 .setUseGzip(true)
                 .setUserAgent(UserAgentUtils.radomUserAgent())
@@ -65,8 +65,9 @@ public class RestaurantCrawler {
         IpPoolHolder.init(dungProxyContext);
         
         RedisScheduler redisScheduler = new RedisScheduler(new JedisPool(new GenericObjectPoolConfig(),HOST_ADDRESS,6379,2000,PASSWORD));
-        OOSpider.create(site,dianPingDaoPipeline, DianPingInfo.class).setScheduler(redisScheduler)
-        		.setDownloader(new WebMagicCustomOfflineProxyDownloader ()).thread(30)
+        OOSpider.create(site,dianPingDaoPipeline, DianPingInfo.class)
+        		.setDownloader(new WebMagicCustomOfflineProxyDownloader ())
+        		.setScheduler(redisScheduler).thread(50)
                 .addUrl("http://www.dianping.com/search/category/1/10/g101o3p1")
                 .run();
     }
