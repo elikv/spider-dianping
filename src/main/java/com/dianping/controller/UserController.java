@@ -15,8 +15,8 @@ import com.dianping.service.UserService;
 /**
  * 功能概要：UserController
  * 
- * @author linbingwen
- * @since  2015年9月28日 
+ * @author elikv
+ * @since  2017年11月28日 
  */
 @Controller
 public class UserController {

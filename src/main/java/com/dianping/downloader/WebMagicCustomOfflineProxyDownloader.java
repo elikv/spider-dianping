@@ -12,7 +12,7 @@ public class WebMagicCustomOfflineProxyDownloader extends DungProxyDownloader {
         if( super.needOfflineProxy(page)){//父类默认下线 401和403,你也可以不调用
             return true;
         }else{
-            return StringUtils.containsIgnoreCase(page.getRawText(), "封禁");
+            return StringUtils.containsIgnoreCase(page.getRawText(), "验证码");
         }
     }
 }

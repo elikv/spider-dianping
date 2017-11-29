@@ -13,9 +13,9 @@
 		insert
 			 into 
 		t_shop
-			 (id,shopName,average,taste,env,service,address,cookStyle,comment,tag,url)
+			 (id,shopName,average,taste,env,service,address,cookStyle,comment,tag,url,img,createTime)
 		 values
-		    (uuid(),#{shopName},#{average},#{taste},#{env},#{service},#{address},#{cookStyle},#{comment},#{tag},#{url})
+		    (uuid(),#{shopName},#{average},#{taste},#{env},#{service},#{address},#{cookStyle},#{comment},#{tag},#{url},#{img},now())
 
 	</insert>
 	

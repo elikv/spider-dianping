@@ -30,7 +30,10 @@ public class DianPingInfo implements AfterExtractor  {
 	//div[@class=\"breadcrumb\"]/allText()
 	@ExtractBy("//div[@class=\"breadcrumb\"]/allText()")
 	private String tag;
-    //	private String styleAndTag2=List2StringUtil.listToString(styleAndTag);
+    //	private String styleAndTag2=List2StringUtil.listToString(styleAndTag);/a[@class=\"J_main-photo\"]/@href
+//	@ExtractBy("//div[@class=\"photo-info\"]/span[@class=\"photo-count\"]/text()")
+	@ExtractBy("//div[@class=\"aside\"]/div[@class=\"photo-thumb\"]/a[@class=\"add-photo J_addPhoto\"]/@target/text()")
+	private String img;
 	
 	private String url;
 	
@@ -45,6 +48,12 @@ public class DianPingInfo implements AfterExtractor  {
 	}
 	public void setShopName(String shopName) {
 		this.shopName = shopName;
+	}
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 	public String getComment() {
 		return comment;
@@ -122,6 +131,8 @@ public class DianPingInfo implements AfterExtractor  {
 	                ", comment='" + comment + '\'' +
 	                ", tag='" + tag+ '\'' +
 	                ", url='" + url + '\'' +
+	                ", img='" + img + '\'' +
+	                
 	                '}';
 	    }
 	@Override
@@ -136,7 +147,9 @@ public class DianPingInfo implements AfterExtractor  {
 		service = split[3];
 		cookStyle= tag.split(">")[1];
 		System.out.println(comment_score); 
-		System.out.println(tag); 
+		System.out.println(tag);
+		img = page.getHtml().xpath("//div[@class=\"photo-header\"]/a").css("img","src").toString();
+		System.out.println(img);
 	}
 
 	
