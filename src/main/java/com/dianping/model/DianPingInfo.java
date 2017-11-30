@@ -42,7 +42,15 @@ public class DianPingInfo implements AfterExtractor  {
 	private String service;
 	private String cookStyle;
 	
+	private String threadNo;
 	
+	
+	public String getThreadNo() {
+		return threadNo;
+	}
+	public void setThreadNo(String threadNo) {
+		this.threadNo = threadNo;
+	}
 	public String getShopName() {
 		return shopName;
 	}
@@ -150,6 +158,7 @@ public class DianPingInfo implements AfterExtractor  {
 		System.out.println(tag);
 		img = page.getHtml().xpath("//div[@class=\"photo-header\"]/a").css("img","src").toString();
 		System.out.println(img);
+		threadNo = String.valueOf(Thread.currentThread().getId());
 	}
 
 	

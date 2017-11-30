@@ -12,11 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dianping.jdbc.Jdbc;
 import com.dianping.main.RestaurantCrawler;
 import com.dianping.model.User;
 import com.dianping.service.UserService;
-
-import jdbc.JDBC;
 
 /**
  * 功能概要：UserController
@@ -29,7 +28,7 @@ public class UserController {
 	@Resource
 	private UserService userService;
 	@Autowired
-	private JDBC jdbc;
+	private Jdbc jdbc;
 	
 		@RequestMapping( "/" )
 		public String showIndex(){

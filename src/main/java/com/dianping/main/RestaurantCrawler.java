@@ -13,12 +13,14 @@ import com.dianping.dao.ProxyIpDAO;
 import com.dianping.downloader.WebMagicCustomOfflineProxyDownloader;
 import com.dianping.model.DianPingInfo;
 import com.dianping.model.ProxyIpInfo;
+import com.dianping.util.JedisPoolConfigExtend;
 import com.dianping.util.UserAgentUtils;
 import com.virjar.dungproxy.client.ippool.IpPoolHolder;
 import com.virjar.dungproxy.client.ippool.config.DungProxyContext;
 import com.virjar.dungproxy.client.ippool.strategy.impl.WhiteListProxyStrategy;
 
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.model.OOSpider;
@@ -41,8 +43,8 @@ public class RestaurantCrawler {
 	@Autowired
 	private ProxyIpDAO proxyIpDao;
 	
-	private static final String HOST_ADDRESS="123.206.206.111";
-	private static final String PASSWORD="W1314zan1g";
+	private static final String HOST_ADDRESS="";
+	private static final String PASSWORD="";
 	
 
     public void crawl() {
@@ -64,7 +66,7 @@ public class RestaurantCrawler {
         // Step3 使用代理规则初始化默认IP池
         IpPoolHolder.init(dungProxyContext);
         
-        RedisScheduler redisScheduler = new RedisScheduler(new JedisPool(new GenericObjectPoolConfig(),HOST_ADDRESS,6379,2000,PASSWORD));
+        RedisScheduler redisScheduler = new RedisScheduler(new JedisPool(new JedisPoolConfigExtend(),HOST_ADDRESS,6379,3500,PASSWORD));
         OOSpider.create(site,dianPingDaoPipeline, DianPingInfo.class)
         		.setDownloader(new WebMagicCustomOfflineProxyDownloader ())
         		.setScheduler(redisScheduler).thread(50)

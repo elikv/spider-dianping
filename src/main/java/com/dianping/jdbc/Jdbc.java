@@ -1,4 +1,4 @@
-package jdbc;
+package com.dianping.jdbc;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,22 +13,23 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 
-  
-public class JDBC {  
+@Component
+public class Jdbc {  
   
     // 表示定义数据库的用户名  
-    private static String USERNAME ="root";  
+    private static String USERNAME ="";  
   
     // 定义数据库的密码  
-    private static String PASSWORD="xiaofeiyang";  
+    private static String PASSWORD="";  
   
     // 定义数据库的驱动信息  
-    private static String DRIVER = "com.mysql.jdbc.Driver";  
+    private static String DRIVER = "";  
   
     // 定义访问数据库的地址  bp1853qt67sqaf4svo
-    private static String URL = "jdbc:mysql://123.206.206.111:3306/spider?characterEncoding=UTF-8&characterSetResults=UTF-8&zeroDateTimeBehavior=convertToNull";  
+    private static String URL = "";  
   
     // 定义数据库的链接  
     private Connection connection;  
@@ -42,7 +43,7 @@ public class JDBC {
   
 
   
-    public JDBC() {  
+    public Jdbc() {  
   
     }  
   
@@ -172,9 +173,9 @@ public class JDBC {
         //填充参数  
         paramList.add(url);  
         List<String> shop = new ArrayList<String>();
-        JDBC jdbcUtil = null;  
+        Jdbc jdbcUtil = null;  
         try {  
-            jdbcUtil = new JDBC();  
+            jdbcUtil = new Jdbc();  
             jdbcUtil.getConnection(); // 获取数据库链接  
             mapList = jdbcUtil.findResult(  
                     sql.toString(), paramList);  
@@ -203,9 +204,9 @@ public class JDBC {
         List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
         //填充参数  
         String shop = "";
-        JDBC jdbcUtil = null;  
+        Jdbc jdbcUtil = null;  
         try {  
-            jdbcUtil = new JDBC();  
+            jdbcUtil = new Jdbc();  
             jdbcUtil.getConnection(); // 获取数据库链接  
              mapList = jdbcUtil.findResult(  
                     sql.toString(), paramList);  
@@ -220,8 +221,8 @@ public class JDBC {
   
     }  
     private static int insert(String student) {
-    	JDBC jdbcUtil = null;  
-    	jdbcUtil = new JDBC();  
+    	Jdbc jdbcUtil = null;  
+    	jdbcUtil = new Jdbc();  
         Connection conn = jdbcUtil.getConnection(); // 获取数据库链接  
         int i = 0;
         String sql = "insert into t_deposit_record(commonCode,shopName,businessDate,status)values(?,?,?,?)";
@@ -242,8 +243,8 @@ public class JDBC {
     }
     
     public void removeDuplicate() throws SQLException, IllegalAccessException, InvocationTargetException{
-    	JDBC jdbcUtil = null;  
-    	jdbcUtil = new JDBC();
+    	Jdbc jdbcUtil = null;  
+    	jdbcUtil = new Jdbc();
     	jdbcUtil.getConnection();
     	List<Map<String, Object>> allData = findAll();
     	List<String> deleteIds = new ArrayList<String>();
