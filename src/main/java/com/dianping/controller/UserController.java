@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.dianping.dao.DianPingDAO;
 import com.dianping.jdbc.Jdbc;
 import com.dianping.main.RestaurantCrawler;
 import com.dianping.model.User;
@@ -39,7 +40,8 @@ public class UserController {
 		public void trigger(){
 			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
 	        final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
-	        restaurantCrawler.crawl();
+	        DianPingDAO dianPingDAO = applicationContext.getBean(DianPingDAO.class);
+	        restaurantCrawler.crawl(dianPingDAO.findExist());
 		}
 		
 		@RequestMapping("/removeDuplicate")

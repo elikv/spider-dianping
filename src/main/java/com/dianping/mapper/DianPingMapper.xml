@@ -19,6 +19,10 @@
 
 	</insert>
 	
+	<select id="findExist" resultType="String">
+		select url from t_shop
+	</select>
+	
 	
 	
 	
