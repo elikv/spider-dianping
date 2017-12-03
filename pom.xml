@@ -159,7 +159,7 @@
     <dependency>
     <groupId>com.virjar</groupId>
     <artifactId>dungproxy-client</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.8</version>
 </dependency>
 
 <!-- 适用于0.7.0 -->

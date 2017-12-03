@@ -15,7 +15,7 @@ import com.dianping.main.RestaurantCrawler;
 @Component
 public class AutoJobCrawler {
 	
-	@Scheduled(cron="0 0 3,6,13,18,21 * * ?")
+//	@Scheduled(cron="0 0 3,6,13,18,21 * * ?")
 	public void autoJobCrawler(){
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
         final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);

@@ -9,30 +9,57 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
  
-    <!-- 读取spring配置文件 -->
-	<context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:application.xml</param-value>
-    </context-param>
-    <context-param>
-    <param-name>webAppRootKey</param-name>
-    <param-value>webApp.root</param-value>
-  </context-param>
-  <listener>  
+    <context-param>  
+<param-name>contextConfigLocation</param-name>  
+<param-value>classpath:application.xml</param-value>  
+</context-param> 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+  
+    
+    <context-param> 
+<param-name>webAppRootKey</param-name> 
+<param-value>myapp.root</param-value> 
+</context-param> 
+    <listener>  
         <listener-class>   
             org.springframework.web.util.WebAppRootListener  
         </listener-class>  
 </listener> 
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+<!-- 
+    如果不设置该参数，webAppRootKey默认缺省是"webapp.root"，Web容器启动时会把root的路径写到系统变量中，log4j.properties文件用${webName.root }来表示Web目录的绝对路径，例如：log4j.appender.ROLLING_FILE.File=${myapp.root}/WEB-INF/myapp.log。 
+    注意：为避免多个应用的冲突，如果多应用的话，需要设置这个参数。 
+--> 
+
+
+<!-- 
+    指定log4j.properties配置文件的位置 
+--> 
+
+<context-param> 
+<param-name>log4jRefreshInterval</param-name> 
+<param-value>60000</param-value> 
+</context-param> 
+<!-- 
+    Spring监听log4j配置文件的间隔时间，单位为毫秒 
+--> 
+
+<listener> 
+<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class> 
+</listener> 
+<!-- 
+    Log4jConfigListener是spring的类，它开启一个log4j的监听线程，并每60 秒检测日志配置变化，不需要每次重新启动web应用以使新的配置生效。 
+    注意：该listener是必须配置的，否则日志文件生不出来。 
+--> 
     
-    <!-- 日志记录 -->
-    <context-param>
-        <!-- 日志页面的刷新间隔 -->
-        <param-name>log4jRefreshInterval</param-name>
-        <param-value>60000</param-value>
-    </context-param>
+    
+    
+    
+
+    
+    
+    
     <!-- Spring字符集过滤器 -->
     <filter>
         <filter-name>SpringEncodingFilter</filter-name>
