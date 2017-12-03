@@ -2,6 +2,7 @@ package com.dianping.downloader;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ import us.codecraft.webmagic.utils.HttpClientUtils;
 @ThreadSafe
 public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private Logger logger = LoggerFactory.getLogger(WebMagicCustomOfflineProxyDownloader.class);
 
     private final Map<String, CloseableHttpClient> httpClients = new HashMap<String, CloseableHttpClient>();
 
@@ -126,8 +127,9 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
     	Integer statusCode = page.getStatusCode();
         if( statusCode == 401 || statusCode == 403){//父类默认下线 401和403,你也可以不调用
             return true;
+            //StringUtils.containsIgnoreCase(page.getRawText(), "32132212321312")
         }else{
-            return StringUtils.containsIgnoreCase(page.getRawText(), "[0x");
+            return false ;
         }
     }
 
@@ -190,11 +192,11 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
         CloseableHttpClient httpClient = getHttpClient(task.getSite());
         Proxy proxy = proxyProvider != null ? proxyProvider.getProxy(task) : null;
         HttpClientRequestContext requestContext = httpUriRequestConverter.convert(request, task.getSite(), proxy);
-        // 扩展功能,支持多用户隔离,默认使用的是crawlerHttpClient,crawlerHttpClient默认则使用multiUserCookieStore
-        if (request.getExtra(ProxyConstant.DUNGPROXY_USER_KEY) != null) {
-            PoolUtil.bindUserKey(requestContext.getHttpClientContext(),
-                    request.getExtra(ProxyConstant.DUNGPROXY_USER_KEY).toString());
-        }
+//        // 扩展功能,支持多用户隔离,默认使用的是crawlerHttpClient,crawlerHttpClient默认则使用multiUserCookieStore
+//        if (request.getExtra(ProxyConstant.DUNGPROXY_USER_KEY) != null) {
+//            PoolUtil.bindUserKey(requestContext.getHttpClientContext(),
+//                    request.getExtra(ProxyConstant.DUNGPROXY_USER_KEY).toString());
+//        }
 
         Page page = UserSessionPage.fail();
         try {
@@ -232,6 +234,12 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
                 proxyProvider.returnProxy(proxy, page, task);
             }
         }
+    }
+    @Override
+    public void onSuccess(Request request) {
+    	System.out.println(new Date());
+    	logger.info("successTime:"+new Date());
+    	logger.info("request:"+request.toString());
     }
 }
 

@@ -20,16 +20,16 @@ import org.springframework.stereotype.Component;
 public class Jdbc {  
   
     // 表示定义数据库的用户名  
-    private static String USERNAME ="";  
+    private static String USERNAME ="root";  
   
     // 定义数据库的密码  
     private static String PASSWORD="";  
   
     // 定义数据库的驱动信息  
-    private static String DRIVER = "";  
+    private static String DRIVER = "com.mysql.jdbc.Driver";  
   
     // 定义访问数据库的地址  bp1853qt67sqaf4svo
-    private static String URL = "";  
+    private static String URL = "jdbc:mysql://localhost:3306/spider";  
   
     // 定义数据库的链接  
     private Connection connection;  

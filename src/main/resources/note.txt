@@ -1,3 +1,10 @@
+现在的问题是：queue里重复数据太庞大而且每次会根据种子累积重复，导致疯狂过滤重复数据，爬取效率太低。要考虑queue里的数据去重
+//python
+http://blog.csdn.net/bone_ace/article/details/53107018
+//java
+http://blog.csdn.net/xiaolang85/article/details/52184092
+
+
 先爬餐厅大概信息，然后拿url建一个餐厅id关联表，再根据id查评论，另外些
 
 

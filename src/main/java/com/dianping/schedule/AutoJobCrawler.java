@@ -20,7 +20,7 @@ public class AutoJobCrawler {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
         final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
         DianPingDAO dianPingDAO = applicationContext.getBean(DianPingDAO.class);
-        restaurantCrawler.crawl(dianPingDAO.findExist());
+        restaurantCrawler.crawl();
 	}
 	
 	@Scheduled(cron="0 0 11,23 * * ?")

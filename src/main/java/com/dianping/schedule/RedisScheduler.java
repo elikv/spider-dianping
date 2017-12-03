@@ -76,12 +76,14 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
     @Override  
     protected void pushWhenNoDuplicate(Request request, Task task) {  
         Jedis jedis = pool.getResource();  
-        jedis.rpush(getQueueKey(task), request.getUrl());
         try {
+        	jedis.rpush(getQueueKey(task), request.getUrl());  
+        
         if (checkForAdditionalInfo(request)) {
-            String field = DigestUtils.shaHex(request.getUrl());
-            String value = JSON.toJSONString(request);
-            jedis.hset((ITEM_PREFIX + task.getUUID()), field, value);
+        	String field = DigestUtils.shaHex(request.getUrl());  
+            String value = JSON.toJSONString(request  
+                    .getExtra("nameValuePair"));  
+            jedis.hset((ITEM_PREFIX + task.getUUID()), field, value);  
         }
         } finally {  
             pool.returnResource(jedis);  
@@ -100,11 +102,23 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
                 return null;  
             }  
             String key = ITEM_PREFIX + task.getUUID();  
-            String field = DigestUtils.shaHex(url);  
-            byte[] bytes = jedis.hget(key.getBytes(), field.getBytes());
-            if (bytes != null) {  
-            	 Request o = JSON.parseObject(new String(bytes), Request.class);
-                return o;  
+            String field = DigestUtils.shaHex(url); 
+            String text = jedis.hget(key, field);  
+            if (text != null) {  
+                JSONArray array = JSON.parseArray(text);  
+                NameValuePair[] nameValuePairs = new NameValuePair[array.size()];  
+                for (int i = 0; i < array.size(); i++) {  
+                    JSONObject json = JSONObject  
+                            .parseObject(array.getString(i));  
+                    nameValuePairs[i] = new BasicNameValuePair(  
+                            json.getString("name"), json.getString("value"));  
+                }  
+                Request r = new Request(url);  
+                Map<String, Object> map = new HashMap<String, Object>();  
+                map.put("nameValuePair", nameValuePairs);  
+                r.setMethod("post");  
+                r.setExtras(map);  
+                return r;  
             }  
             Request request = new Request(url); 
             return request;  

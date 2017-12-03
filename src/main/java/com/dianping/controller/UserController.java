@@ -40,8 +40,7 @@ public class UserController {
 		public void trigger(){
 			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
 	        final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
-	        DianPingDAO dianPingDAO = applicationContext.getBean(DianPingDAO.class);
-	        restaurantCrawler.crawl(dianPingDAO.findExist());
+	        restaurantCrawler.crawl();
 		}
 		
 		@RequestMapping("/removeDuplicate")
