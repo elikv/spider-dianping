@@ -80,8 +80,7 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
         
         if (checkForAdditionalInfo(request)) {
         	String field = DigestUtils.shaHex(request.getUrl());  
-            String value = JSON.toJSONString(request  
-                    .getExtra("nameValuePair"));  
+        	String value = JSON.toJSONString(request);
             jedis.hset((ITEM_PREFIX + task.getUUID()), field, value);  
         }
         } finally {  
