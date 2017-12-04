@@ -45,7 +45,6 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
   
     public RedisScheduler(JedisPool pool) {  
         this.pool = pool;  
-        setDuplicateRemover(this);  
     }  
   
     @Override  
@@ -89,43 +88,40 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
             pool.returnResource(jedis);  
         }  
     }  
+    
+    @Override
+    public void push(Request request, Task task) {
+        logger.trace("get a candidate url {}", request.getUrl());
+        if (shouldReserved(request) || noNeedToRemoveDuplicate(request) || !isDuplicate(request, task)) {
+            logger.debug("push to queue {}", request.getUrl());
+            pushWhenNoDuplicate(request, task);
+        }
+    }
   
     /** 
      * 移动并且返回队列头部一个元素 
      */  
-    @Override  
-    public synchronized Request poll(Task task) {  
-        Jedis jedis = pool.getResource();  
-        try {  
-            String url = jedis.lpop(getQueueKey(task));  
-            if (url == null) {  
-                return null;  
-            }  
-            String key = ITEM_PREFIX + task.getUUID();  
-            String field = DigestUtils.shaHex(url); 
-            String text = jedis.hget(key, field);  
-            if (text != null) {  
-                JSONArray array = JSON.parseArray(text);  
-                NameValuePair[] nameValuePairs = new NameValuePair[array.size()];  
-                for (int i = 0; i < array.size(); i++) {  
-                    JSONObject json = JSONObject  
-                            .parseObject(array.getString(i));  
-                    nameValuePairs[i] = new BasicNameValuePair(  
-                            json.getString("name"), json.getString("value"));  
-                }  
-                Request r = new Request(url);  
-                Map<String, Object> map = new HashMap<String, Object>();  
-                map.put("nameValuePair", nameValuePairs);  
-                r.setMethod("post");  
-                r.setExtras(map);  
-                return r;  
-            }  
-            Request request = new Request(url); 
-            return request;  
-        } finally {  
-            pool.returnResource(jedis);  
-        }  
-    }  
+    @Override
+    public synchronized Request poll(Task task) {
+        Jedis jedis = pool.getResource();
+        try {
+            String url = jedis.lpop(getQueueKey(task));
+            if (url == null) {
+                return null;
+            }
+            String key = ITEM_PREFIX + task.getUUID();
+            String field = DigestUtils.shaHex(url);
+            byte[] bytes = jedis.hget(key.getBytes(), field.getBytes());
+            if (bytes != null) {
+                Request o = JSON.parseObject(new String(bytes), Request.class);
+                return o;
+            }
+                Request request = new Request(url);
+            return request;
+        } finally {
+            pool.returnResource(jedis);
+        }
+    }
   
     protected String getSetKey(Task task) {  
         return SET_PREFIX + task.getUUID();  
