@@ -2,13 +2,23 @@ package com.dianping.model;
 
 
 
+import org.apache.commons.lang3.StringUtils;
+
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 @TargetUrl("http://www.dianping.com/shop/\\d+")
-@HelpUrl("http://www.dianping.com/search/category/1/10/g\\d+o3p\\d+")
+//^http://www.dianping.com/search/category/1/10/(g\d{3,4})?(o3)?(p.*)?$
+//@HelpUrl("http://www.dianping.com/search/category/1/10/((g\\d{3,4})|(r\\d{3,4}))?(o3)?(p*)?")
+//@HelpUrl("http://www.dianping.com/search/category/1/10/(g\\d{3,4})?(o3)?(p*)?")
+
+//@HelpUrl("^http://www.dianping.com/search/category/1/10/(g\\d{3,5})?(p*)?$"
+//		+ "|^http://www.dianping.com/search/category/1/10/(r\\d{3,5})?(p*)?$"
+//		+ "|^http://www.dianping.com/search/category/1/10/(g\\d{3,5}r\\d{3,5})?(p*)?$")
+
+
 public class DianPingInfo implements AfterExtractor  {
 	
 	@ExtractBy("//div[@class=\"basic-info\"]/h1[@class=\"shop-name\"]/text()")
@@ -149,14 +159,30 @@ public class DianPingInfo implements AfterExtractor  {
 //		average=average.split("：")[1].split("元")[0];
 //		System.out.println(  average  );
 		url = page.getRequest().getUrl();
+		if(StringUtils.isEmpty(comment_score)) {
+			page.setSkip(true);
+			return;
+		}
 		String[] split = comment_score.split(":");
 		taste=split[1].substring(0, 3);
 		env = split[2].substring(0, 3);
 		service = split[3];
+		if(Double.valueOf(taste)<=7.5) {
+			page.setSkip(true);
+			return;
+		}
+		if(!StringUtils.equals(tag.split(">")[0].trim(), "上海美食")) {
+			page.setSkip(true);
+			return;
+		}
 		cookStyle= tag.split(">")[1];
 		System.out.println(comment_score); 
 		System.out.println(tag);
-		img = page.getHtml().xpath("//div[@class=\"photo-header\"]/a").css("img","src").toString();
+		//photo-header
+		img = page.getHtml().xpath("//div[@class=\"photos\"]/a").css("img","src").toString();
+		if(StringUtils.isEmpty(img)) {
+			img = page.getHtml().xpath("//div[@class=\"photo-header\"]/a").css("img","src").toString();
+		}
 		System.out.println(img);
 		threadNo = String.valueOf(Thread.currentThread().getId());
 	}

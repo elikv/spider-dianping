@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,9 +39,10 @@ public class UserController {
 		
 		@RequestMapping("/trigger")
 		public void trigger(){
-			ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
+			AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
 	        final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
 	        restaurantCrawler.crawl();
+	        applicationContext.close();
 		}
 		
 		@RequestMapping("/removeDuplicate")

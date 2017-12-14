@@ -2,10 +2,13 @@ package com.dianping.downloader;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -19,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.virjar.dungproxy.client.ippool.config.ProxyConstant;
 import com.virjar.dungproxy.client.util.PoolUtil;
 import com.virjar.dungproxy.webmagic7.DungProxyHttpClientGenerator;
+import com.virjar.dungproxy.webmagic7.DungProxyProvider;
 import com.virjar.dungproxy.webmagic7.UserSessionPage;
 
 import us.codecraft.webmagic.Page;
@@ -36,13 +40,11 @@ import us.codecraft.webmagic.utils.HttpClientUtils;
 
 
 
-
-
-
 @ThreadSafe
 public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
 
-    private Logger logger = LoggerFactory.getLogger(WebMagicCustomOfflineProxyDownloader.class);
+
+	private Logger logger = LoggerFactory.getLogger(WebMagicCustomOfflineProxyDownloader.class);
 
     private final Map<String, CloseableHttpClient> httpClients = new HashMap<String, CloseableHttpClient>();
 
@@ -50,7 +52,7 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
 
     private HttpUriRequestConverter httpUriRequestConverter = new HttpUriRequestConverter();
 
-    private ProxyProvider proxyProvider;
+    private DungProxyProvider proxyProvider ;
 
     private boolean responseHeader = true;
 
@@ -58,22 +60,27 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
         this.httpUriRequestConverter = httpUriRequestConverter;
     }
 
-    public void setProxyProvider(ProxyProvider proxyProvider) {
+    public void setProxyProvider(DungProxyProvider proxyProvider) {
         this.proxyProvider = proxyProvider;
     }
 
-	 public CloseableHttpClient getHttpClient(Site site) {
-	        if (site == null) {
-	            return httpClientGenerator.getClient(null);
-	        }
-	        CloseableHttpClient httpClient = null;
-	        String domain = site.getDomain();
-	            synchronized (this) {
-	                httpClient = httpClientGenerator.getClient(site);
-	              httpClients.put(domain, httpClient);
-	            }
-	        return httpClient;
-	    }
+    public CloseableHttpClient getHttpClient(Site site) {
+        if (site == null) {
+            return httpClientGenerator.getClient(null);
+        }
+        String domain = site.getDomain();
+        CloseableHttpClient httpClient = httpClients.get(domain);
+        if (httpClient == null) {
+            synchronized (this) {
+                httpClient = httpClients.get(domain);
+                if (httpClient == null) {
+                    httpClient = httpClientGenerator.getClient(site);
+                    httpClients.put(domain, httpClient);
+                }
+            }
+        }
+        return httpClient;
+    }
 
 
 
@@ -125,11 +132,10 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
      */
     protected boolean needOfflineProxy(Page page) {
     	Integer statusCode = page.getStatusCode();
-        if( statusCode == 401 || statusCode == 403){//父类默认下线 401和403,你也可以不调用
+        if( statusCode == 401 || statusCode == 403 ||statusCode == 504 || statusCode == 400){//父类默认下线 401和403,你也可以不调用
             return true;
-            //StringUtils.containsIgnoreCase(page.getRawText(), "32132212321312")
         }else{
-            return false ;
+        	return StringUtils.containsIgnoreCase(page.getRawText(), "验证中心");
         }
     }
 
@@ -197,7 +203,6 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
 //            PoolUtil.bindUserKey(requestContext.getHttpClientContext(),
 //                    request.getExtra(ProxyConstant.DUNGPROXY_USER_KEY).toString());
 //        }
-
         Page page = UserSessionPage.fail();
         try {
             httpResponse = httpClient.execute(requestContext.getHttpUriRequest(),
@@ -207,7 +212,7 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
                 PoolUtil.offline(requestContext.getHttpClientContext());
                 return addToCycleRetry(task.getSite(), page);
             }
-            onSuccess(request);
+            onSuccess(request,page);
             logger.debug("downloading page success {}", page);
             return page;
         } catch (IOException e) {
@@ -235,9 +240,60 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
             }
         }
     }
-    @Override
-    public void onSuccess(Request request) {
+    public  synchronized void onSuccess(Request request,Page page) {
     	System.out.println(new Date());
+    	String url = request.getUrl();
+    	boolean hasAid = false;
+    	String aidUrl = "";
+    	//增加分页列表   增加?aid判断
+    	if(StringUtils.containsIgnoreCase(request.getUrl(), "http://www.dianping.com/search/category/1/10")) {
+    		if(StringUtils.containsIgnoreCase(request.getUrl(), "aid")) {
+    			hasAid = true;
+    			String[] split = url.split("\\?aid");
+    			url = split[0];
+    			aidUrl = "?aid"+split[1];
+    		}
+    		
+    		List<String> request2 = new ArrayList<String>();
+    		//倒数第二个字母是p
+    		if(StringUtils.equals(url.substring(url.length()-2,url.length()-1), "p")) {
+    			String str3 = url.substring(0,url.length()-2);
+    			for(int i=1;i<=50;i++) {
+    				if(hasAid) {
+    					request2.add(str3+"p"+String.valueOf(i)+aidUrl);
+    				}else {
+    				request2.add(str3+"p"+String.valueOf(i));
+    				}
+    			}
+    		}
+    		//倒数第三个字母是p    http://www.dianping.com/search/category/1/10/p21
+    		else if(StringUtils.equals(url.substring(url.length()-3,url.length()-2), "p")) {
+    			String str3 = url.substring(0,url.length()-3);
+    			for(int i=1;i<=50;i++) {
+    				if(hasAid) {
+    					request2.add(str3+"p"+String.valueOf(i)+aidUrl);
+    				}else {
+    				request2.add(str3+"p"+String.valueOf(i));
+    				}
+    			}
+    		}
+    		//没有分页
+    		
+    		else{
+    			for(int i=1;i<=50;i++) {
+    				if(hasAid) {
+    					request2.add(url+"p"+String.valueOf(i)+aidUrl);
+    				}else {
+    				request2.add(url+"p"+String.valueOf(i));
+    				}
+    			}
+    		}
+    		if(!CollectionUtils.isEmpty(request2)) {
+    			page.addTargetRequests(request2);
+    		}
+    	}
+    	
+		
     	logger.info("successTime:"+new Date());
     	logger.info("request:"+request.toString());
     }
