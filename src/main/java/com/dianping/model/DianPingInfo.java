@@ -9,14 +9,14 @@ import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
 import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
-@TargetUrl("http://www.dianping.com/shop/\\d+")
+@TargetUrl(value ="http://www.dianping.com/shop/\\d+",sourceRegion="//div[@class=\"pic\"]/a | //td[@class=\"td-shopName\"]/a")
 //^http://www.dianping.com/search/category/1/10/(g\d{3,4})?(o3)?(p.*)?$
 //@HelpUrl("http://www.dianping.com/search/category/1/10/((g\\d{3,4})|(r\\d{3,4}))?(o3)?(p*)?")
 //@HelpUrl("http://www.dianping.com/search/category/1/10/(g\\d{3,4})?(o3)?(p*)?")
 
 //@HelpUrl("^http://www.dianping.com/search/category/1/10/(g\\d{3,5})?(p*)?$"
 //		+ "|^http://www.dianping.com/search/category/1/10/(r\\d{3,5})?(p*)?$"
-//		+ "|^http://www.dianping.com/search/category/1/10/(g\\d{3,5}r\\d{3,5})?(p*)?$")
+//		+ "|c")
 
 
 public class DianPingInfo implements AfterExtractor  {
@@ -167,11 +167,11 @@ public class DianPingInfo implements AfterExtractor  {
 		taste=split[1].substring(0, 3);
 		env = split[2].substring(0, 3);
 		service = split[3];
-		if(Double.valueOf(taste)<=7.5) {
+		if(Double.valueOf(taste)<7.4) {
 			page.setSkip(true);
 			return;
 		}
-		if(!StringUtils.equals(tag.split(">")[0].trim(), "上海美食")) {
+		if(!StringUtils.contains(tag.split(">")[0].trim(), "上海")) {
 			page.setSkip(true);
 			return;
 		}
@@ -185,6 +185,10 @@ public class DianPingInfo implements AfterExtractor  {
 		}
 		System.out.println(img);
 		threadNo = String.valueOf(Thread.currentThread().getId());
+		shopName = shopName.trim();
+		address = address.trim();
+		cookStyle = cookStyle.trim();
+		tag = tag.trim();
 	}
 
 	

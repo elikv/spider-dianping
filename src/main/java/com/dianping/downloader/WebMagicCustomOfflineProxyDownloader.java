@@ -11,10 +11,25 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.annotation.ThreadSafe;
+import org.apache.http.auth.AuthState;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.impl.auth.BasicScheme;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +52,13 @@ import us.codecraft.webmagic.proxy.ProxyProvider;
 import us.codecraft.webmagic.selector.PlainText;
 import us.codecraft.webmagic.utils.CharsetUtils;
 import us.codecraft.webmagic.utils.HttpClientUtils;
+import us.codecraft.webmagic.utils.HttpConstant;
+import us.codecraft.webmagic.utils.UrlUtils;
 
 
 
 @ThreadSafe
-public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
+public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
 
 
 	private Logger logger = LoggerFactory.getLogger(WebMagicCustomOfflineProxyDownloader.class);
@@ -131,11 +148,22 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
      * @return 是否需要封禁这个IP
      */
     protected boolean needOfflineProxy(Page page) {
+    	String rawText = page.getRawText();
     	Integer statusCode = page.getStatusCode();
-        if( statusCode == 401 || statusCode == 403 ||statusCode == 504 || statusCode == 400){//父类默认下线 401和403,你也可以不调用
+    	if( statusCode !=200){//父类默认下线 401和403,你也可以不调用
             return true;
-        }else{
-        	return StringUtils.containsIgnoreCase(page.getRawText(), "验证中心");
+        }
+    	else if(!StringUtils.containsIgnoreCase(rawText, "dianping")) {
+    		return true;
+    	}
+        else{
+        	
+        	return StringUtils.containsIgnoreCase(rawText, "验证中心") 
+        			|| StringUtils.containsIgnoreCase(rawText, "Bad Request")
+        			|| StringUtils.containsIgnoreCase(rawText, "403 Forbidden")
+        			|| StringUtils.containsIgnoreCase(rawText, "welcome to zscaler directory authentication")
+//        			|| StringUtils.containsIgnoreCase(rawText, "404 File Not Found")
+        			;
         }
     }
 
@@ -297,5 +325,7 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader {
     	logger.info("successTime:"+new Date());
     	logger.info("request:"+request.toString());
     }
+   
+    
 }
 
