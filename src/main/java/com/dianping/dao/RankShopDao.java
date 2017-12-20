@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.dianping.model.DianPingInfo;
+import com.dianping.model.RankShopInfo;
 
 
 /**
@@ -16,10 +17,9 @@ import com.dianping.model.DianPingInfo;
  *         Time: 下午4:27
  */
 @Repository
-public interface DianPingDAO {
+public interface RankShopDao {
 
     //添加大众点评网的数据到数据库
-    public int add(DianPingInfo dianPingInfo);
-    //返回存在的url
-    public ArrayList<String> findExist();
+    public int addList(List<RankShopInfo> dianPingInfo);
+   
 }

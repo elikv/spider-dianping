@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dianping.dao.DianPingDAO">
+<!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！ 
+	<resultMap id="BaseResultMap" type="com.dianping.model.ProxyIpInfo">
+		<id column="ip" property="ip" jdbcType="VARCHAR" />
+		<result column="port" property="port" jdbcType="INTEGER" />
+	</resultMap>-->
+
+	<!-- 添加单条记录 -->
+	<insert id="addList"  >
+		insert
+			 into 
+		t_rank_shop
+			 (id,rankTime,rankNo,shopName,address,defaultPic,categoryId,rankType,shopTags,avgPrice,refinedScore1,refinedScore2,refinedScore3,shopId,url)
+		 values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(uuid(),#{item.rankTime},#{item.rankNo},#{item.shopName},#{item.address},#{item.defaultPic},#{item.categoryId},#{item.rankType},#{item.shopTags},#{item.avgPrice},#{item.refinedScore1},#{item.refinedScore2},#{item.refinedScore3},#{item.shopId},#{item.url})
+		</foreach>
+	</insert>
+	
+</mapper>
