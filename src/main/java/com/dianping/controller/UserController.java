@@ -18,6 +18,7 @@ import com.dianping.jdbc.Jdbc;
 import com.dianping.main.RestaurantCrawler;
 import com.dianping.model.User;
 import com.dianping.service.UserService;
+import com.virjar.dungproxy.client.ippool.PreHeater;
 
 /**
  * 功能概要：UserController
@@ -48,6 +49,11 @@ public class UserController {
 		@RequestMapping("/removeDuplicate")
 		public void removeDuplicate() throws IllegalAccessException, InvocationTargetException, SQLException{
 			jdbc.removeDuplicate();
+		}
+		
+		@RequestMapping("/preHeater")
+		public void preHeater(){
+			PreHeater.start();
 		}
 	
 //	@RequestMapping("/")  
