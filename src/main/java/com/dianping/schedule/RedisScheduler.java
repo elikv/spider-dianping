@@ -1,4 +1,5 @@
 package com.dianping.schedule;
+import java.util.Date;
 import java.util.HashMap;  
 import java.util.Map;  
   
@@ -8,6 +9,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;  
 import com.alibaba.fastjson.JSONArray;  
@@ -28,6 +30,7 @@ import us.codecraft.webmagic.scheduler.component.DuplicateRemover;
  *  
  * @author CainGao 
  */  
+@Component
 public class RedisScheduler extends DuplicateRemovedScheduler implements  
         MonitorableScheduler, DuplicateRemover {  
 	private  static Logger logger = LoggerFactory.getLogger(RedisScheduler.class);
@@ -45,6 +48,9 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
   
     public RedisScheduler(JedisPool pool) {  
         this.pool = pool;  
+    }  
+    public RedisScheduler() {  
+         
     }  
   
     @Override  
@@ -178,5 +184,55 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
 
         return false;
     }
+    
+    
+    
+    
+    
+    
+    public void push(String url) {
+        logger.trace("get a candidate url {}", url);
+        if ( !isDuplicate(url)) {
+            logger.debug("push to queue {}", url);
+            pushWhenNoDuplicate(url);
+        }
+    }
+    
+    public boolean isDuplicate(String url) {  
+        Jedis jedis = pool.getResource();  
+        try {  
+            boolean isDuplicate = jedis.sismember(SET_PREFIX + "www.dianping.com",  
+                    url);   
+            if (!isDuplicate) {  
+                jedis.sadd(SET_PREFIX + "www.dianping.com", url);   
+            }  
+            return isDuplicate;  
+        } finally {  
+            pool.returnResource(jedis);  
+        }  
+    }  
+    
+    public void pushWhenNoDuplicate(String url) {  
+        Jedis jedis = pool.getResource();  
+        try {
+        	jedis.rpush(QUEUE_PREFIX +"www.dianping.com", url);  
+        
+        } finally {  
+            pool.returnResource(jedis);  
+        }  
+    }  
+    
+    public void pushData(String data,String rankTime) {  
+        Jedis jedis = pool.getResource();  
+        try {
+        	jedis.rpush("rank_"+rankTime+"www.dianping.com", data);  
+        
+        } finally {  
+            pool.returnResource(jedis);  
+        }  
+    }  
+    
+    
+    
   
 }  
