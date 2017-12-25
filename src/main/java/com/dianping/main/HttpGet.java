@@ -26,7 +26,11 @@ import com.virjar.dungproxy.client.httpclient.CrawlerHttpClient;
 import com.virjar.dungproxy.client.httpclient.CrawlerHttpClientBuilder;
 
 import redis.clients.jedis.JedisPool;
-
+/**
+ * 接口采集数据
+ * @author 16315
+ *
+ */
 @Component
 public class HttpGet {
 	

@@ -23,7 +23,7 @@ public class AutoJobCrawler {
         restaurantCrawler.crawl();
 	}
 	
-	@Scheduled(cron="0 0 11,23 * * ?")
+//	@Scheduled(cron="0 0 11,23 * * ?")
 	public void removeDuplicate() throws IllegalAccessException, InvocationTargetException, SQLException{
 		new Jdbc().removeDuplicate();
 	}

@@ -2,6 +2,7 @@ package com.dianping.controller;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import javax.annotation.Resource;
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.dianping.dao.DianPingDAO;
 import com.dianping.jdbc.Jdbc;
+import com.dianping.main.HttpGet;
 import com.dianping.main.RestaurantCrawler;
 import com.dianping.model.User;
 import com.dianping.service.UserService;
@@ -54,6 +56,14 @@ public class UserController {
 		@RequestMapping("/preHeater")
 		public void preHeater(){
 			PreHeater.start();
+		}
+		
+		@RequestMapping("/rankTrigger")
+		public void rankTrigger() throws ParseException, InterruptedException{
+			AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
+	        final HttpGet httpGet = applicationContext.getBean(HttpGet.class);
+	        httpGet.doGet();
+	        applicationContext.close();
 		}
 	
 //	@RequestMapping("/")  
