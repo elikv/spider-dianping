@@ -54,6 +54,8 @@ public class DianPingInfo implements AfterExtractor  {
 	
 	private String threadNo;
 	
+	private String id;
+	
 	
 	public String getThreadNo() {
 		return threadNo;
@@ -132,6 +134,13 @@ public class DianPingInfo implements AfterExtractor  {
 	}
 	public void setCookStyle(String cookStyle) {
 		this.cookStyle = cookStyle;
+	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 

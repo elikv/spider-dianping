@@ -24,6 +24,83 @@
 	</select>
 	
 	
+		<select id="findAll" resultType="com.dianping.model.DianPingInfo">
+		select id,shopName,address,cookStyle,comment,average from t_shop
+	</select>
+	
+	<update id="update" parameterType="com.dianping.model.DianPingInfo">
+		update t_shop
+		<trim prefix="SET" suffixOverrides=",">
+			createTime = now(),
+			<if test="taste !=null and taste !=''">
+				taste = #{taste},
+			</if>
+			<if test="env !=null and env !=''">
+				env = #{env},
+			</if>
+			<if test="service !=null and service !=''">
+				service = #{service},
+			</if>
+			<if test="shopName !=null and shopName !=''">
+				shopName = #{shopName},
+			</if>
+			<if test="comment !=null and comment !=''">
+				comment = #{comment},
+			</if>
+			<if test="address !=null and address !=''">
+				address = #{address},
+			</if>
+			<if test="cookStyle !=null and cookStyle !=''">
+				cookStyle = #{cookStyle},
+			</if>
+			<if test="average !=null and average !=''">
+				average = #{average},
+			</if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	
+	<select id="findStarByShopId" parameterType="String" resultType="com.dianping.model.ShopStar">
+		select * from t_shop_star where shopId = #{shopId}
+	</select>
+	
+		<update id="updateStar" parameterType="com.dianping.model.ShopStar">
+		update t_shop_star
+		<trim prefix="SET" suffixOverrides=",">
+			createTime = now(),
+			<if test="fiveStar !=null and fiveStar !=''">
+				fiveStar = #{fiveStar},
+			</if>
+			<if test="fourStar !=null and fourStar !=''">
+				fourStar = #{fourStar},
+			</if>
+			<if test="threeStar !=null and threeStar !=''">
+				threeStar = #{threeStar},
+			</if>
+			<if test="twoStar !=null and twoStar !=''">
+				twoStar = #{twoStar},
+			</if>
+			<if test="oneStar !=null and oneStar !=''">
+				oneStar = #{oneStar},
+			</if>
+			
+		</trim>
+		where shopId = #{shopId}
+	</update>
+	
+	
+	<insert id="addStar" parameterType="com.dianping.model.ShopStar" >
+		insert
+			 into 
+		t_shop
+			 (id,shopId,oneStar,twoStar,threeStar,fourStar,fiveStar,createTime)
+		 values
+		    (uuid(),#{shopId},#{oneStar},#{twoStar},#{threeStar},#{fourStar},#{fiveStar},now())
+
+	</insert>
+	
+	
 	
 	
 	
