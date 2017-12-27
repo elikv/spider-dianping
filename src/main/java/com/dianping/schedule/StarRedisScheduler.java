@@ -22,25 +22,25 @@ import us.codecraft.webmagic.scheduler.component.DuplicateRemover;
  * @author elikv 
  */  
 @Component
-public class RedisScheduler extends DuplicateRemovedScheduler implements  
+public class StarRedisScheduler extends DuplicateRemovedScheduler implements  
         MonitorableScheduler, DuplicateRemover {  
-	private  static Logger logger = LoggerFactory.getLogger(RedisScheduler.class);
+	private  static Logger logger = LoggerFactory.getLogger(StarRedisScheduler.class);
     private JedisPool pool;  
   
-    private static final String QUEUE_PREFIX = "queue_";  
+    private static final String QUEUE_PREFIX = "star_queue_";  
   
-    private static final String SET_PREFIX = "set_";  
+    private static final String SET_PREFIX = "star_set_";  
   
-    private static final String ITEM_PREFIX = "item_";  
+    private static final String ITEM_PREFIX = "star_item_";  
   
-    public RedisScheduler(String host) {  
+    public StarRedisScheduler(String host) {  
         this(new JedisPool(new JedisPoolConfig(), host));  
     }  
   
-    public RedisScheduler(JedisPool pool) {  
+    public StarRedisScheduler(JedisPool pool) {  
         this.pool = pool;  
     }  
-    public RedisScheduler() {  
+    public StarRedisScheduler() {  
          
     }  
   

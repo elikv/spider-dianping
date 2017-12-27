@@ -61,11 +61,11 @@
 	</update>
 	
 	
-	<select id="findStarByShopId" parameterType="String" resultType="com.dianping.model.ShopStar">
+	<select id="findStarByShopId" parameterType="String" resultType="com.dianping.model.ShopStarEntity">
 		select * from t_shop_star where shopId = #{shopId}
 	</select>
 	
-		<update id="updateStar" parameterType="com.dianping.model.ShopStar">
+		<update id="updateStar" parameterType="com.dianping.model.ShopStarEntity">
 		update t_shop_star
 		<trim prefix="SET" suffixOverrides=",">
 			createTime = now(),
@@ -90,10 +90,10 @@
 	</update>
 	
 	
-	<insert id="addStar" parameterType="com.dianping.model.ShopStar" >
+	<insert id="addStar" parameterType="com.dianping.model.ShopStarEntity" >
 		insert
 			 into 
-		t_shop
+		t_shop_star
 			 (id,shopId,oneStar,twoStar,threeStar,fourStar,fiveStar,createTime)
 		 values
 		    (uuid(),#{shopId},#{oneStar},#{twoStar},#{threeStar},#{fourStar},#{fiveStar},now())

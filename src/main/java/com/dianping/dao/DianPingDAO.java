@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.dianping.model.DianPingInfo;
-import com.dianping.model.ShopStar;
+import com.dianping.model.ShopStarEntity;
 
 
 /**
@@ -28,9 +28,9 @@ public interface DianPingDAO {
     
     public void update(DianPingInfo dianPingInfo);
     
-    public ShopStar findStarByShopId(String shopId);
+    public ShopStarEntity findStarByShopId(String shopId);
     
-    public void updateStar(ShopStar shopStar);
+    public void updateStar(ShopStarEntity shopStar);
     
-    public void addStar(ShopStar shopStar);
+    public void addStar(ShopStarEntity shopStar);
 }

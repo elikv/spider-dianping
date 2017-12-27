@@ -16,6 +16,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.dianping.dao.RankShopDao;
 import com.dianping.model.RankShopInfo;
@@ -72,11 +73,13 @@ public class HttpGet {
 		String format = simpleDateFormat.format(new Date());
 		Date rankTime = simpleDateFormat.parse(format);
 		 JSONObject parseObject = JSON.parseObject(data);
-		 redisScheduler.pushData(data, format);
+		 
 		 String rankType = parseObject.getString("rankType");
 		 String categoryId = parseObject.getString("categoryId");
 		List<RankShopInfo> list = JSON.parseArray(parseObject.getString("shopBeans"), RankShopInfo.class);
 		if(!CollectionUtils.isEmpty(list)){
+			String jsonData = JSONArray.toJSONString(list);
+			redisScheduler.pushData(jsonData, format);
 		for (int i = 0; i < list.size(); i++) {
 			RankShopInfo rankShopInfo = list.get(i);
 			rankShopInfo.setRankNo(i+1);
@@ -87,6 +90,7 @@ public class HttpGet {
 			redisScheduler.push(rankShopInfo.getUrl());
 		}
 		}
+		
 		return list;
 	}
 
