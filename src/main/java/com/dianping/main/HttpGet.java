@@ -46,7 +46,6 @@ public class HttpGet {
 	public void doGet() throws ParseException, InterruptedException {
 		
 		CrawlerHttpClient client = CrawlerHttpClientBuilder.create().build();
-		
 		List<List<NameValuePair>> needParams = URLUtils.getParams();
 		for (List<NameValuePair> params : needParams) {
 			String data = client.get(URLUtils.baseUrl,params,Charset.defaultCharset());
@@ -78,8 +77,6 @@ public class HttpGet {
 		 String categoryId = parseObject.getString("categoryId");
 		List<RankShopInfo> list = JSON.parseArray(parseObject.getString("shopBeans"), RankShopInfo.class);
 		if(!CollectionUtils.isEmpty(list)){
-			String jsonData = JSONArray.toJSONString(list);
-			redisScheduler.pushData(jsonData, format);
 		for (int i = 0; i < list.size(); i++) {
 			RankShopInfo rankShopInfo = list.get(i);
 			rankShopInfo.setRankNo(i+1);
@@ -89,6 +86,8 @@ public class HttpGet {
 			rankShopInfo.setUrl("http://www.dianping.com/shop/"+rankShopInfo.getShopId());
 			redisScheduler.push(rankShopInfo.getUrl());
 		}
+		String jsonData = JSONArray.toJSONString(list);
+		redisScheduler.pushData(jsonData, format);
 		}
 		
 		return list;

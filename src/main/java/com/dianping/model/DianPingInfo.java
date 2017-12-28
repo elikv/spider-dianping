@@ -7,7 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.model.AfterExtractor;
 import us.codecraft.webmagic.model.annotation.ExtractBy;
-import us.codecraft.webmagic.model.annotation.HelpUrl;
 import us.codecraft.webmagic.model.annotation.TargetUrl;
 @TargetUrl(value ="http://www.dianping.com/shop/\\d+",sourceRegion="//div[@class=\"pic\"]/a | //td[@class=\"td-shopName\"]/a")
 //^http://www.dianping.com/search/category/1/10/(g\d{3,4})?(o3)?(p.*)?$
@@ -55,6 +54,8 @@ public class DianPingInfo implements AfterExtractor  {
 	private String threadNo;
 	
 	private String id;
+	
+	private String shopId;
 	
 	
 	public String getThreadNo() {
@@ -143,6 +144,13 @@ public class DianPingInfo implements AfterExtractor  {
 		this.id = id;
 	}
 	
+	public String getShopId() {
+		return shopId;
+	}
+	public void setshopId(String shopId) {
+		this.shopId = shopId;
+	}
+	
 
 	
 	   @Override
@@ -159,6 +167,7 @@ public class DianPingInfo implements AfterExtractor  {
 	                ", tag='" + tag+ '\'' +
 	                ", url='" + url + '\'' +
 	                ", img='" + img + '\'' +
+	                ", shopId='" + shopId + '\'' +
 	                
 	                '}';
 	    }
@@ -172,6 +181,7 @@ public class DianPingInfo implements AfterExtractor  {
 			page.setSkip(true);
 			return;
 		}
+		shopId= url.split("/")[4];
 		String[] split = comment_score.split(":");
 		taste=split[1].substring(0, 3);
 		env = split[2].substring(0, 3);
@@ -184,7 +194,9 @@ public class DianPingInfo implements AfterExtractor  {
 			page.setSkip(true);
 			return;
 		}
+		comment = comment.split("条")[0];
 		cookStyle= tag.split(">")[1];
+		average = average.split(":")[1];
 		System.out.println(comment_score); 
 		System.out.println(tag);
 		//photo-header

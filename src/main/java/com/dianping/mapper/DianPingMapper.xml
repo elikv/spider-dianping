@@ -25,7 +25,7 @@
 	
 	
 		<select id="findAll" resultType="com.dianping.model.DianPingInfo">
-		select id,shopName,address,cookStyle,comment,average from t_shop
+		select id,shopId,url from t_shop
 	</select>
 	
 	<update id="update" parameterType="com.dianping.model.DianPingInfo">
@@ -34,6 +34,9 @@
 			createTime = now(),
 			<if test="taste !=null and taste !=''">
 				taste = #{taste},
+			</if>
+			<if test="shopId !=null and shopId !=''">
+				shopId = #{shopId},
 			</if>
 			<if test="env !=null and env !=''">
 				env = #{env},

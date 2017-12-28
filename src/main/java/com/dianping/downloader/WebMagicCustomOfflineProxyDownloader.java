@@ -11,35 +11,23 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.annotation.ThreadSafe;
-import org.apache.http.auth.AuthState;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.client.params.CookiePolicy;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.auth.BasicScheme;
-import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.virjar.dungproxy.client.ippool.config.ProxyConstant;
+import com.dianping.config.RedisConfig;
+import com.dianping.schedule.StarRedisScheduler;
+import com.dianping.util.JedisPoolConfigExtend;
 import com.virjar.dungproxy.client.util.PoolUtil;
 import com.virjar.dungproxy.webmagic7.DungProxyHttpClientGenerator;
 import com.virjar.dungproxy.webmagic7.DungProxyProvider;
 import com.virjar.dungproxy.webmagic7.UserSessionPage;
 
+import redis.clients.jedis.JedisPool;
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
@@ -48,12 +36,9 @@ import us.codecraft.webmagic.downloader.AbstractDownloader;
 import us.codecraft.webmagic.downloader.HttpClientRequestContext;
 import us.codecraft.webmagic.downloader.HttpUriRequestConverter;
 import us.codecraft.webmagic.proxy.Proxy;
-import us.codecraft.webmagic.proxy.ProxyProvider;
 import us.codecraft.webmagic.selector.PlainText;
 import us.codecraft.webmagic.utils.CharsetUtils;
 import us.codecraft.webmagic.utils.HttpClientUtils;
-import us.codecraft.webmagic.utils.HttpConstant;
-import us.codecraft.webmagic.utils.UrlUtils;
 
 
 
@@ -268,7 +253,24 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
             }
         }
     }
-    public  synchronized void onSuccess(Request request,Page page) {
+    public   void onSuccess(Request request,Page page) {
+    	
+    	addCategory( request, page);
+    	//starCrawler触发
+		if(StringUtils.contains(request.getUrl(), "review")){
+			StarRedisScheduler redisScheduler = new StarRedisScheduler(new JedisPool(new JedisPoolConfigExtend(),RedisConfig.HOST_ADDRESS,6379,5000,RedisConfig.PASSWORD));
+			redisScheduler.hsetSuccess(request);
+		}
+    	logger.info("successTime:"+new Date());
+    	logger.info("request:"+request.toString());
+    }
+    
+    /**
+     * 加入0-50分页
+     * @param request
+     * @param page
+     */
+    public void addCategory(Request request,Page page){
     	System.out.println(new Date());
     	String url = request.getUrl();
     	boolean hasAid = false;
@@ -320,10 +322,6 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
     			page.addTargetRequests(request2);
     		}
     	}
-    	
-		
-    	logger.info("successTime:"+new Date());
-    	logger.info("request:"+request.toString());
     }
    
     

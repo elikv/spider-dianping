@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<% %>
 <!DOCTYPE HTML >
 <html>
 <head>
@@ -10,20 +8,13 @@
 </head>
 <body>
 <center>
-	<div class="choose-select">
-	<select class="selectVal"  >
-	<option value="zero" >请选择食堂</option>
-  	<option value="one"> 一食堂 </option>
-  	<option value="two"> 二食堂 </option>
-  	<option value="three"> 三食堂 </option>
-  	</select>
-  	</div>
-  	
-  	
-  	<div class = " choose-btn ">
-  	<input type="button"  value="random floor" >
-  	</div>
-  	
+<a href='/trigger'>爬虫触发</a>
+</br>
+<a href='/removeDuplicate'>去重</a>
+</br>
+<a href='/preHeater'>ip预热</a>
+</br>
+<a href='/rankTrigger'>排行榜接口爬取</a>
 
 </center>
   

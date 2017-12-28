@@ -31,7 +31,11 @@ public class StarRedisScheduler extends DuplicateRemovedScheduler implements
   
     private static final String SET_PREFIX = "star_set_";  
   
-    private static final String ITEM_PREFIX = "star_item_";  
+    private static final String ITEM_PREFIX = "star_item_";
+    
+    private static final String RANK_PREFIX = "rank_category_";
+    
+    private static final String ITEM_SUCCESS_PREFIX = "star_success_";
   
     public StarRedisScheduler(String host) {  
         this(new JedisPool(new JedisPoolConfig(), host));  
@@ -216,12 +220,24 @@ public class StarRedisScheduler extends DuplicateRemovedScheduler implements
     public void pushData(String data,String rankTime) {  
         Jedis jedis = pool.getResource();  
         try {
-        	jedis.rpush("rank_"+rankTime+"www.dianping.com", data);  
+        	jedis.rpush(RANK_PREFIX+rankTime, data);  
         
         } finally {  
             pool.returnResource(jedis);  
         }  
     }  
+    
+    public void hsetSuccess(Request request){
+    	 Jedis jedis = pool.getResource();  
+         try {
+        	 String shopId = request.getUrl().split("/")[4];
+         	String field = DigestUtils.shaHex(request.getUrl());  
+         	String value = JSON.toJSONString(request);
+             jedis.hset((ITEM_SUCCESS_PREFIX +shopId), field, value);  
+         } finally {  
+             pool.returnResource(jedis);  
+         }  
+    }
     
     
     

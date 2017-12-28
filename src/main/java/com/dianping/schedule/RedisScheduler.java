@@ -31,7 +31,9 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
   
     private static final String SET_PREFIX = "set_";  
   
-    private static final String ITEM_PREFIX = "item_";  
+    private static final String ITEM_PREFIX = "item_"; 
+    
+    private static final String RANK_PREFIX = "rank_category_";
   
     public RedisScheduler(String host) {  
         this(new JedisPool(new JedisPoolConfig(), host));  
@@ -216,12 +218,12 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
     public void pushData(String data,String rankTime) {  
         Jedis jedis = pool.getResource();  
         try {
-        	jedis.rpush("rank_"+rankTime+"www.dianping.com", data);  
+        	jedis.rpush(RANK_PREFIX+rankTime, data);  
         
         } finally {  
             pool.returnResource(jedis);  
         }  
-    }  
+    }
     
     
     
