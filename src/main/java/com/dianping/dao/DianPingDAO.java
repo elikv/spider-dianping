@@ -2,9 +2,7 @@ package com.dianping.dao;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.dianping.model.DianPingInfo;
@@ -30,7 +28,11 @@ public interface DianPingDAO {
     
     public ShopStarEntity findStarByShopId(String shopId);
     
+    public ShopStarEntity findStarAll();
+    
     public void updateStar(ShopStarEntity shopStar);
     
     public void addStar(ShopStarEntity shopStar);
+    
+    public void addStarChild(ShopStarEntity shopStar);
 }

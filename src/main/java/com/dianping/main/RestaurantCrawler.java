@@ -3,51 +3,33 @@ package com.dianping.main;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.dianping.config.RedisConfig;
-import com.dianping.dao.DianPingDAO;
-import com.dianping.dao.ProxyIpDAO;
 import com.dianping.downloader.WebMagicCustomOfflineProxyDownloader;
 import com.dianping.jdbc.Jdbc;
-import com.dianping.listener.DianPingListener;
 import com.dianping.model.DianPingInfo;
-import com.dianping.model.ProxyIpInfo;
 import com.dianping.schedule.RedisScheduler;
-import com.dianping.service.DianPingServiceImpl;
-import com.dianping.util.DianPingOffliner;
 import com.dianping.util.DianPingOfflinerImpl;
 import com.dianping.util.JedisPoolConfigExtend;
 import com.dianping.util.UserAgentUtils;
-import com.virjar.dungproxy.client.httpclient.cookie.CookieDisableCookieStore;
 import com.virjar.dungproxy.client.ippool.IpPoolHolder;
 import com.virjar.dungproxy.client.ippool.config.DungProxyContext;
-import com.virjar.dungproxy.client.ippool.strategy.Offline;
 import com.virjar.dungproxy.client.ippool.strategy.impl.WhiteListProxyStrategy;
-import com.virjar.dungproxy.webmagic7.DungProxyDownloader;
 
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.SpiderListener;
-import us.codecraft.webmagic.downloader.HttpClientDownloader;
 import us.codecraft.webmagic.model.OOSpider;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
-import us.codecraft.webmagic.proxy.Proxy;
-import us.codecraft.webmagic.proxy.SimpleProxyProvider;
-import com.dianping.dao.DianPingDAO;
 
 /**
- * @author code4crafer@gmail.com
- *         Date: 13-6-23
+ * @author elikv
+ *         Date: 17-6-23
  *         Time: 下午4:19
  */
 @Component
@@ -120,7 +102,7 @@ public class RestaurantCrawler {
         		}
         		String[] array = list.toArray(new String[0]);
         		create.addUrl(array);
-        		create.thread(120)
+        		create.thread(200)
                 .run();
         
     }

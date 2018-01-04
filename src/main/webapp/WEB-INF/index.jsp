@@ -1,3 +1,4 @@
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8" %>
 <!DOCTYPE HTML >
 <html>
 <head>
@@ -8,13 +9,13 @@
 </head>
 <body>
 <center>
-<a href='/trigger'>爬虫触发</a>
+<a href='./trigger'>爬虫触发</a>
 </br>
-<a href='/removeDuplicate'>去重</a>
+<a href='./removeDuplicate'>去重</a>
 </br>
-<a href='/preHeater'>ip预热</a>
+<a href='./preHeater'>ip预热</a>
 </br>
-<a href='/rankTrigger'>排行榜接口爬取</a>
+<a href='./rankTrigger'>排行榜接口爬取</a>
 
 </center>
   

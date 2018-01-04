@@ -13,9 +13,9 @@
 		insert
 			 into 
 		t_shop
-			 (id,shopName,average,taste,env,service,address,cookStyle,comment,tag,url,img,createTime,threadNo)
+			 (id,shopName,average,taste,env,service,address,cookStyle,comment,tag,url,img,createTime,shopId)
 		 values
-		    (uuid(),#{shopName},#{average},#{taste},#{env},#{service},#{address},#{cookStyle},#{comment},#{tag},#{url},#{img},now(),#{threadNo})
+		    (uuid(),#{shopName},#{average},#{taste},#{env},#{service},#{address},#{cookStyle},#{comment},#{tag},#{url},#{img},now(),#{shopId})
 
 	</insert>
 	
@@ -68,6 +68,10 @@
 		select * from t_shop_star where shopId = #{shopId}
 	</select>
 	
+	<select id="findStarAll" parameterType="String" resultType="com.dianping.model.ShopStarEntity">
+		select id,fiveStar,fourStar,threeStar,twoStar,oneStar,shopId,score from t_shop_star 
+	</select>
+	
 		<update id="updateStar" parameterType="com.dianping.model.ShopStarEntity">
 		update t_shop_star
 		<trim prefix="SET" suffixOverrides=",">
@@ -99,7 +103,17 @@
 		t_shop_star
 			 (id,shopId,oneStar,twoStar,threeStar,fourStar,fiveStar,createTime)
 		 values
-		    (uuid(),#{shopId},#{oneStar},#{twoStar},#{threeStar},#{fourStar},#{fiveStar},now())
+		    (#{id},#{shopId},#{oneStar},#{twoStar},#{threeStar},#{fourStar},#{fiveStar},now())
+
+	</insert>
+	
+	<insert id="addStarChild" parameterType="com.dianping.model.ShopStarEntity" >
+		insert
+			 into 
+		t_shop_star_child
+			 (parentId,id,shopId,oneStar,twoStar,threeStar,fourStar,fiveStar,createTime)
+		 values
+		    (#{parentId},#{id},#{shopId},#{oneStar},#{twoStar},#{threeStar},#{fourStar},#{fiveStar},now())
 
 	</insert>
 	

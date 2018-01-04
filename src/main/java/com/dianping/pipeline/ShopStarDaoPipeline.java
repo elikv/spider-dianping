@@ -2,11 +2,13 @@ package com.dianping.pipeline;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.dianping.dao.DianPingDAO;
 import com.dianping.model.ShopStarEntity;
+import com.dianping.model.ShopStarEntityExtend;
 
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.pipeline.PageModelPipeline;
@@ -25,8 +27,14 @@ public class ShopStarDaoPipeline implements PageModelPipeline<ShopStarEntity> {
     private DianPingDAO jobInfoDAO;
 
     public  synchronized void process(ShopStarEntity shopStar, Task task) {
+    	ShopStarEntityExtend shopStarEntityExtend = new ShopStarEntityExtend();
+    	
+    	BeanUtils.copyProperties(shopStar, shopStarEntityExtend);
+    	shopStar.setId(shopStar.getUUID());
+    	shopStarEntityExtend.setId(shopStar.getId());
     	ShopStarEntity byShopId = jobInfoDAO.findStarByShopId(shopStar.getShopId());
     	if(null==byShopId){
+    		shopStar.setId(shopStar.getUUID());
     		jobInfoDAO.addStar(shopStar);
     	}else{
     		shopStar.setFiveStar(shopStar.getFiveStar()+byShopId.getFiveStar());
@@ -36,6 +44,7 @@ public class ShopStarDaoPipeline implements PageModelPipeline<ShopStarEntity> {
     		shopStar.setOneStar(shopStar.getOneStar()+byShopId.getOneStar());
     		jobInfoDAO.updateStar(shopStar);
     	}
+    	jobInfoDAO.addStarChild(shopStarEntityExtend);
     	System.out.println("正在添加shopId"+shopStar.getShopId()+",当前fiveStar："+
     	shopStar.getFiveStar()+",当前fourStar："+shopStar.getFourStar()
     	+",当前threeStar："+shopStar.getThreeStar()+",当前twoStar："+shopStar.getTwoStar()

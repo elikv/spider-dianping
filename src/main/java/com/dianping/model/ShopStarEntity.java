@@ -4,6 +4,7 @@ package com.dianping.model;
 
 
 import java.util.List;
+import java.util.UUID;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.model.AfterExtractor;
@@ -22,30 +23,31 @@ public class ShopStarEntity implements AfterExtractor  {
 	
 	
 	//sml-rank-stars sml-str40 star
-	private String id;
+	public String id;
 	
 //	@ExtractBy("count(//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str50 star\"])")
 	@ExtractBy("//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str50 star\"]")
-	private List<String> fiveStarDiv;
-	private int fiveStar;
+	public List<String> fiveStarDiv;
+	public int fiveStar;
 //	@ExtractBy("count(//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str40 star\"])")
 	@ExtractBy("//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str40 star\"]")
-	private List<String> fourStarDiv;
-	private int fourStar;
+	public List<String> fourStarDiv;
+	public int fourStar;
 
 
 	//	@ExtractBy("count(//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str30 star\"])")
 	@ExtractBy("//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str30 star\"]")
-	private List<String> threeStarDiv;
-	private int threeStar;
+	public List<String> threeStarDiv;
+	public int threeStar;
 	@ExtractBy("//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str20 star\"]")
-	private List<String> twoStarDiv;
-	private int twoStar;
+	public List<String> twoStarDiv;
+	public int twoStar;
 	@ExtractBy("//div[@class=\"review-rank\"]/span[@class=\"sml-rank-stars sml-str10 star\"]")
-	private List<String> oneStarDiv;
-	private int oneStar;
-	private String shopId;
+	public List<String> oneStarDiv;
+	public int oneStar;
+	public String shopId;
 	
+	public String url;
 	
 	public String getId() {
 		return id;
@@ -53,6 +55,13 @@ public class ShopStarEntity implements AfterExtractor  {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public List<String> getFiveStarDiv() {
@@ -143,6 +152,10 @@ public class ShopStarEntity implements AfterExtractor  {
 		this.shopId = shopId;
 	}
 	
+	public String getUUID(){
+        return UUID.randomUUID().toString().replace("-","");
+    }
+	
 	
 	
 	   @Override
@@ -154,6 +167,7 @@ public class ShopStarEntity implements AfterExtractor  {
 	                ", threeStar='" + threeStar + '\'' +
 	                ", twoStar='" + twoStar + '\'' +
 	                 ", oneStar='" + oneStar + '\'' +
+	                  ", url='" + url + '\'' +
 	                '}';
 	    }
 	   
@@ -163,8 +177,8 @@ public class ShopStarEntity implements AfterExtractor  {
 //		System.out.println(  average  );
 //		average=average.split("：")[1].split("元")[0];
 //		System.out.println(  average  );
-		shopId = page.getRequest().getUrl();
-		shopId = shopId.split("/")[4];
+		url = page.getRequest().getUrl();
+		shopId = url.split("/")[4];
 		fiveStar = fiveStarDiv.size();
 		fourStar = fourStarDiv.size();
 		threeStar = threeStarDiv.size();
