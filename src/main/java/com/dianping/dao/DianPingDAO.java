@@ -2,11 +2,13 @@ package com.dianping.dao;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import com.dianping.model.DianPingInfo;
 import com.dianping.model.ShopStarEntity;
+import com.dianping.model.ShopStarEntityExtend;
 
 
 /**
@@ -28,11 +30,31 @@ public interface DianPingDAO {
     
     public ShopStarEntity findStarByShopId(String shopId);
     
-    public ShopStarEntity findStarAll();
+    /**
+     * 通过shopId查出所有starChild
+     * @param shopId
+     * @return
+     */
+    public List<ShopStarEntityExtend> findStarChildByShopId(String shopId);
+    /**
+     * 通过url查starChild
+     * @param shopId
+     * @return
+     */
+    public ShopStarEntityExtend findStarChildByUrl(String url);
+    
+    public List<ShopStarEntity> findStarAll();
+    /**
+     *  
+     * @return t_shop_star所有shopId
+     */
+    public List<String>findShopIdByStar();
     
     public void updateStar(ShopStarEntity shopStar);
     
     public void addStar(ShopStarEntity shopStar);
     
     public void addStarChild(ShopStarEntity shopStar);
+    
+    public int findMaxPage(String shopId);
 }

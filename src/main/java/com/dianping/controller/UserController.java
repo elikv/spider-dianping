@@ -7,18 +7,15 @@ import java.text.ParseException;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.dianping.dao.DianPingDAO;
 import com.dianping.jdbc.Jdbc;
 import com.dianping.main.HttpGet;
 import com.dianping.main.RestaurantCrawler;
-import com.dianping.model.User;
+import com.dianping.main.StarCrawler;
 import com.dianping.service.UserService;
 import com.virjar.dungproxy.client.ippool.PreHeater;
 
@@ -63,6 +60,14 @@ public class UserController {
 			AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
 	        final HttpGet httpGet = applicationContext.getBean(HttpGet.class);
 	        httpGet.doGet();
+	        applicationContext.close();
+		}
+		
+		@RequestMapping("/addStar")
+		public void addStar() throws ParseException, InterruptedException{
+			AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
+	        final StarCrawler starCrawler = applicationContext.getBean(StarCrawler.class);
+	        starCrawler.crawl();
 	        applicationContext.close();
 		}
 	

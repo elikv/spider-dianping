@@ -16,6 +16,8 @@
 <a href='./preHeater'>ip预热</a>
 </br>
 <a href='./rankTrigger'>排行榜接口爬取</a>
+</br>
+<a href='./addStar'>爬取星级</a>
 
 </center>
   

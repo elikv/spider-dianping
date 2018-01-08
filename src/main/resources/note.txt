@@ -40,6 +40,19 @@ refinedScore2 as '环境',refinedScore3 as '服务' ,address,url from t_rank_sho
 where categoryId='110' and avgPrice<150   GROUP BY shopId ORDER BY count(shopId) desc
 
 
+select *  from t_shop_star_child where shopId='92886319' ORDER BY subString(SPLIT_STR(url,'/',7),2)+0 desc
+
+CREATE FUNCTION SPLIT_STR(
+  x VARCHAR(255),
+  delim VARCHAR(12),
+  pos INT
+)
+RETURNS VARCHAR(255)
+RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(x, delim, pos),
+       LENGTH(SUBSTRING_INDEX(x, delim, pos -1)) + 1),
+       delim, '');
+
+
 
 学术做法
 情感分析  

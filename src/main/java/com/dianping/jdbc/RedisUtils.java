@@ -1,6 +1,7 @@
 package com.dianping.jdbc;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.dianping.config.RedisConfig;
 import com.dianping.dao.DianPingDAO;
+import com.dianping.model.ShopStarEntityExtend;
 import com.dianping.util.JedisPoolConfigExtend;
 
 import redis.clients.jedis.Jedis;
@@ -20,18 +22,24 @@ import redis.clients.jedis.JedisPool;
  *
  */
 @Component
-public class deleteCategory {
+public class RedisUtils {
 	final String HOST_ADDRESS=RedisConfig.HOST_ADDRESS;
 	final String PASSWORD=RedisConfig.PASSWORD;
+	
+	
+	
 	@Autowired
 	private DianPingDAO dianpingDao;
 	public static void main(String[] args) {
-		new deleteCategory().deleteCategory();
+		new RedisUtils().deleteCategory();
 	}
 	
+	public Jedis connect(){
+		JedisPool  jedisPool = new JedisPool(new JedisPoolConfigExtend(),HOST_ADDRESS,6379,5000,PASSWORD);
+		return   jedisPool.getResource();
+	}
 	public void deleteCategory() {
-		JedisPool jedisPool = new JedisPool(new JedisPoolConfigExtend(),HOST_ADDRESS,6379,5000,PASSWORD);
-		Jedis resource = jedisPool.getResource();
+		Jedis resource = connect();
 		Set<String> smembers = resource.smembers("set_www.dianping.com");
 		int i = 0;
 		for (String string : smembers) {
@@ -45,11 +53,25 @@ public class deleteCategory {
 		System.out.println("共删除"+i+"个分类地址");
 		
 	}
+	//TODO too much complex
+	public void checkAndAdd(){
+		List<String> shopIds = dianpingDao.findShopIdByStar();
+		Jedis resource = connect();
+		for (String shopId : shopIds) {
+			int maxPage = dianpingDao.findMaxPage(shopId);
+			for(int i=2;i<=maxPage;i++){
+				String url = "http://www.dianping.com/shop/"+shopId+"/review_all/p"+i;
+				ShopStarEntityExtend entity = dianpingDao.findStarChildByUrl(url);
+				if(null == entity){
+					resource.rpush("star_queue_www.dianping.com",url);
+				}
+			}
+			
+		}
+	}
 	
 	public void addDuplicate() {
-		JedisPool jedisPool = new JedisPool(new JedisPoolConfigExtend(),HOST_ADDRESS,6379,5000,PASSWORD);
-		Jedis resource = jedisPool.getResource();
-		
+		Jedis resource = connect();
 		ArrayList<String> findExist = dianpingDao.findExist();
 		for (String string : findExist) {
 			System.out.println("正在添加："+string);

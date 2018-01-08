@@ -30,11 +30,11 @@ public class ShopStarDaoPipeline implements PageModelPipeline<ShopStarEntity> {
     	ShopStarEntityExtend shopStarEntityExtend = new ShopStarEntityExtend();
     	
     	BeanUtils.copyProperties(shopStar, shopStarEntityExtend);
-    	shopStar.setId(shopStar.getUUID());
-    	shopStarEntityExtend.setId(shopStar.getId());
+    	
     	ShopStarEntity byShopId = jobInfoDAO.findStarByShopId(shopStar.getShopId());
     	if(null==byShopId){
     		shopStar.setId(shopStar.getUUID());
+    		shopStarEntityExtend.setParentId(shopStar.getId());
     		jobInfoDAO.addStar(shopStar);
     	}else{
     		shopStar.setFiveStar(shopStar.getFiveStar()+byShopId.getFiveStar());
@@ -43,6 +43,7 @@ public class ShopStarDaoPipeline implements PageModelPipeline<ShopStarEntity> {
     		shopStar.setTwoStar(shopStar.getTwoStar()+byShopId.getTwoStar());
     		shopStar.setOneStar(shopStar.getOneStar()+byShopId.getOneStar());
     		jobInfoDAO.updateStar(shopStar);
+    		shopStarEntityExtend.setParentId(byShopId.getId());
     	}
     	jobInfoDAO.addStarChild(shopStarEntityExtend);
     	System.out.println("正在添加shopId"+shopStar.getShopId()+",当前fiveStar："+

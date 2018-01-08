@@ -68,8 +68,20 @@
 		select * from t_shop_star where shopId = #{shopId}
 	</select>
 	
+	<select id="findStarChildByShopId" parameterType="String" resultType="com.dianping.model.ShopStarEntityExtend">
+		select * from t_shop_star_child where shopId = #{shopId}
+	</select>
+	
+	<select id="findStarChildByUrl" parameterType="String" resultType="com.dianping.model.ShopStarEntityExtend">
+		select * from t_shop_star_child where url = #{url}
+	</select>
+	
 	<select id="findStarAll" parameterType="String" resultType="com.dianping.model.ShopStarEntity">
 		select id,fiveStar,fourStar,threeStar,twoStar,oneStar,shopId,score from t_shop_star 
+	</select>
+	
+	<select id='findShopIdByStar' resultType="String">
+		select DISTINCT(shopid) from t_shop_star
 	</select>
 	
 		<update id="updateStar" parameterType="com.dianping.model.ShopStarEntity">
@@ -111,11 +123,16 @@
 		insert
 			 into 
 		t_shop_star_child
-			 (parentId,id,shopId,oneStar,twoStar,threeStar,fourStar,fiveStar,createTime)
+			 (parentId,id,shopId,oneStar,twoStar,threeStar,fourStar,fiveStar,createTime,url)
 		 values
-		    (#{parentId},#{id},#{shopId},#{oneStar},#{twoStar},#{threeStar},#{fourStar},#{fiveStar},now())
+		    (#{parentId},uuid(),#{shopId},#{oneStar},#{twoStar},#{threeStar},#{fourStar},#{fiveStar},now(),#{url})
 
 	</insert>
+	
+	
+	<select id="findMaxPage" parameterType="String">
+		select MAX(subString(SPLIT_STR(url,'/',7),2)+0)  from t_shop_star_child where shopId=#{shopId} 
+	</select>
 	
 	
 	

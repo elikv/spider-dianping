@@ -13,6 +13,7 @@ import com.dianping.downloader.WebMagicCustomOfflineProxyDownloader;
 import com.dianping.jdbc.Jdbc;
 import com.dianping.model.ShopStarEntity;
 import com.dianping.schedule.StarRedisScheduler;
+import com.dianping.util.DianPingOfflinerImpl;
 import com.dianping.util.JedisPoolConfigExtend;
 import com.dianping.util.UserAgentUtils;
 import com.virjar.dungproxy.client.ippool.IpPoolHolder;
@@ -46,10 +47,16 @@ public class StarCrawler {
         		.addHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8")
         		.addHeader("Referrer", "www.dianping.com")
         		.addHeader("Accept-Language", "zh-CN,zh;q=0.9")
-        		.addHeader("Cookie", "s_ViewType=10")
+//        		.addHeader("Cookie", "s_ViewType=10")
         		// .setHttpProxy(new HttpHost("127.0.0.1",8888))
-//        		.setDisableCookieManagement(true)
-        		.addCookie("www.dianping.com", "s_ViewType", "10")
+        		.setDisableCookieManagement(true)
+//        		.addCookie("www.dianping.com", "_hc.v", "567d6b73-87bd-0529-d84f-ce567653edc8.1513747703")
+//        		.addCookie("www.dianping.com", "cy", "1")
+//        		.addCookie("www.dianping.com", "cye", "shanghai")
+//        		.addCookie("www.dianping.com", "_lx_utm", "utm_source%3DBaidu%26utm_medium%3Dorganic")
+//        		.addCookie("www.dianping.com", "_lxsdk", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c8")
+//        		.addCookie("www.dianping.com", "_lxsdk_cuid", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c8")
+//        		.addCookie("www.dianping.com", "_lxsdk_s", "160d3b2ed33-59f-f5d-17c%7C%7C19")
         		//        		.setDisableCookieManagement(true)
                 .setRetryTimes(99) // 就我的经验,这个重试一般用处不大,他是httpclient内部重试
                 .setTimeOut(35000)// 在使用代理的情况下,这个需要设置,可以考虑调大线程数目
@@ -68,15 +75,15 @@ public class StarCrawler {
 		//增加预热
 //        dungProxyContext.getPreHeater().start();
         // Step3 使用代理规则初始化默认IP池
-//        dungProxyContext.setDefaultOffliner(DianPingOfflinerImpl.class);
+        dungProxyContext.setDefaultOffliner(DianPingOfflinerImpl.class);
         IpPoolHolder.init(dungProxyContext);
         StarRedisScheduler redisScheduler = new StarRedisScheduler(new JedisPool(new JedisPoolConfigExtend(),"123.206.206.111",6379,5000,"W1314zan1g"));
         OOSpider create = OOSpider.create(site,shopStarDaoPipeline, ShopStarEntity.class);
 //        create.setExitWhenComplete(false);
         create.setScheduler(redisScheduler)
         		.setDownloader(new WebMagicCustomOfflineProxyDownloader());
-        //http://www.dianping.com/shop/92975744/review_all
-        		create.thread(50).addUrl("http://www.dianping.com/shop/92975744/review_all")
+        //http://www.dianping.com/shop/92974819/review_all
+        		create.thread(200).addUrl("http://www.dianping.com/shop/92886319/review_all")
                 .run();
         
     }
