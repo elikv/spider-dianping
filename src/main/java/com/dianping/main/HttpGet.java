@@ -48,7 +48,7 @@ public class HttpGet {
 		CrawlerHttpClient client = CrawlerHttpClientBuilder.create().build();
 		List<List<NameValuePair>> needParams = URLUtils.getParams();
 		for (List<NameValuePair> params : needParams) {
-			String data = client.get(URLUtils.baseUrl,params,Charset.defaultCharset());
+			String data = client.get(URLUtils.baseUrl_rank,params,Charset.defaultCharset());
 			List<RankShopInfo> parseData = parseData(data);
 			if(!CollectionUtils.isEmpty(parseData)){
 				rankShopDao.addList(parseData);

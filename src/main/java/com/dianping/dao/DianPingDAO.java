@@ -57,4 +57,9 @@ public interface DianPingDAO {
     public void addStarChild(ShopStarEntity shopStar);
     
     public int findMaxPage(String shopId);
+    //通过排行榜数据 查找上榜次数最多的 shopId
+    public List<String> findStarShopId();
+    
+    public List<ShopStarEntity>findRecommend();
+    
 }

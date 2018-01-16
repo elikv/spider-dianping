@@ -134,6 +134,16 @@
 		select MAX(subString(SPLIT_STR(url,'/',7),2)+0)  from t_shop_star_child where shopId=#{shopId} 
 	</select>
 	
+	<select id='findStarShopId' resultType="String">
+		select shopId from t_rank_shop where refinedScore1>8 GROUP BY shopId ORDER BY count(shopId) desc
+		
+	</select>
+	
+	<select id='findRecommend' resultType="com.dianping.model.ShopStarEntity">
+		select shopName,address,defaultPic,avgPrice,refinedScore1,refinedScore2,refinedScore3,shopId,url from t_rank_shop where refinedScore1>8 GROUP BY shopId ORDER BY count(shopId) desc
+		
+	</select>
+	
 	
 	
 	

@@ -39,7 +39,7 @@ select shopName as  '餐厅名称',shopId,count(shopId) as '上榜次数',avgPri
 refinedScore2 as '环境',refinedScore3 as '服务' ,address,url from t_rank_shop 
 where categoryId='110' and avgPrice<150   GROUP BY shopId ORDER BY count(shopId) desc
 
-
+http://blog.csdn.net/yuruixin_china/article/details/72399409
 select *  from t_shop_star_child where shopId='92886319' ORDER BY subString(SPLIT_STR(url,'/',7),2)+0 desc
 
 CREATE FUNCTION SPLIT_STR(
