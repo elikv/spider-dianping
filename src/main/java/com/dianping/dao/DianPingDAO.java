@@ -4,9 +4,11 @@ package com.dianping.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.dianping.model.DianPingInfo;
+import com.dianping.model.RankShopInfo;
 import com.dianping.model.ShopStarEntity;
 import com.dianping.model.ShopStarEntityExtend;
 
@@ -16,7 +18,7 @@ import com.dianping.model.ShopStarEntityExtend;
  *         Date: 17-6-23
  *         Time: 下午4:27
  */
-@Repository
+@Component
 public interface DianPingDAO {
 
     //添加大众点评网的数据到数据库
@@ -60,6 +62,6 @@ public interface DianPingDAO {
     //通过排行榜数据 查找上榜次数最多的 shopId
     public List<String> findStarShopId();
     
-    public List<ShopStarEntity>findRecommend();
+    public List<RankShopInfo>findRecommend();
     
 }

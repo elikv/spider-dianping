@@ -3,6 +3,7 @@ package com.dianping.model;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import us.codecraft.webmagic.Page;
 import us.codecraft.webmagic.model.AfterExtractor;
@@ -17,7 +18,7 @@ import us.codecraft.webmagic.model.annotation.TargetUrl;
 //		+ "|^http://www.dianping.com/search/category/1/10/(r\\d{3,5})?(p*)?$"
 //		+ "|c")
 
-
+@Component
 public class DianPingInfo implements AfterExtractor  {
 	
 	@ExtractBy("//div[@class=\"basic-info\"]/h1[@class=\"shop-name\"]/text()")

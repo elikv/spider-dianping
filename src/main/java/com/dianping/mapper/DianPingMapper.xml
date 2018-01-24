@@ -139,7 +139,7 @@
 		
 	</select>
 	
-	<select id='findRecommend' resultType="com.dianping.model.ShopStarEntity">
+	<select id='findRecommend' resultType="com.dianping.model.RankShopInfo">
 		select shopName,address,defaultPic,avgPrice,refinedScore1,refinedScore2,refinedScore3,shopId,url from t_rank_shop where refinedScore1>8 GROUP BY shopId ORDER BY count(shopId) desc
 		
 	</select>

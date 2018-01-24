@@ -63,6 +63,21 @@
 		<property name="dataSource" ref="dataSource" />
         <property name="mapperLocations" value="classpath*:com/dianping/mapper/**/*.xml"/>   
 		<property name="configLocation" value="classpath:mybatis/mybatis-config.xml" />
+		<!-- 配置分页插件 -->
+     <property name="plugins">
+        <array>
+          <bean class="com.github.pagehelper.PageInterceptor">
+            <property name="properties">
+              <value>
+                helperDialect=mysql
+                reasonable=true
+              </value>
+            </property>
+          </bean>
+        </array>
+      </property>
+		
+		
 		<!-- <property name="typeAliasesPackage" value="com.tiantian.ckeditor.model" 
 			/> -->
 	</bean>
