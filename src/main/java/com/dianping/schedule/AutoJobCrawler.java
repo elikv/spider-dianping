@@ -2,29 +2,56 @@ package com.dianping.schedule;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.text.ParseException;
 
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.dianping.dao.DianPingDAO;
 import com.dianping.jdbc.Jdbc;
+import com.dianping.main.HttpGet;
 import com.dianping.main.RestaurantCrawler;
+import com.virjar.dungproxy.client.ippool.PreHeater;
 
 @Component
 public class AutoJobCrawler {
 	
-//	@Scheduled(cron="0 0 3,6,13,18,21 * * ?")
-	public void autoJobCrawler(){
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
-        final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
-        DianPingDAO dianPingDAO = applicationContext.getBean(DianPingDAO.class);
-        restaurantCrawler.crawl();
+	/**
+	 * 每周1，3，5早上10点爬接口
+	 * @throws ParseException
+	 * @throws InterruptedException
+	 */
+//	@Scheduled(cron="0 0 10 ? * MON,WED,FRI")
+	public void autoRankTrigger() throws ParseException, InterruptedException{
+		AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
+        final HttpGet httpGet = applicationContext.getBean(HttpGet.class);
+        httpGet.doGet();
+        applicationContext.close();
 	}
 	
-//	@Scheduled(cron="0 0 11,23 * * ?")
-	public void removeDuplicate() throws IllegalAccessException, InvocationTargetException, SQLException{
-		new Jdbc().removeDuplicate();
+	
+	/**
+	 * 每天14点预热ip
+	 */
+//	@Scheduled(cron="0 0 14 * * ?")
+	public void autoPreHeater(){
+		PreHeater.start();
 	}
+	
+	/**
+	 * 每天18点爬取信息
+	 * @throws IllegalAccessException
+	 * @throws InvocationTargetException
+	 * @throws SQLException
+	 */
+//	@Scheduled(cron="0 0 18 * * ?")
+	public void autoJobCrawler() throws IllegalAccessException, InvocationTargetException, SQLException{
+		AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
+        final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
+        new Jdbc().removeDuplicate();
+        restaurantCrawler.crawl();
+        applicationContext.close();
+	}
+
+	
 }

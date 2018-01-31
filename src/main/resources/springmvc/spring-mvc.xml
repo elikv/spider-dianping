@@ -20,12 +20,12 @@
     <mvc:annotation-driven/>
    
 
-   	<!-- 静态资源访问 -->
+   	<!-- 静态资源访问   在web.xml配置了 没用-->
 	<mvc:resources location="/WEB-INF/js/" mapping="/js/**" />
 	<mvc:resources location="/WEB-INF/css/" mapping="/css/**" />
 	<mvc:resources location="/WEB-INF/img/" mapping="/img/**" />
 	
-
+	
 
    <!-- 对模型视图添加前后缀 -->
      <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"

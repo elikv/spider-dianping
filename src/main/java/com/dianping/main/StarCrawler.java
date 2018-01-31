@@ -49,14 +49,14 @@ public class StarCrawler {
         		.addHeader("Accept-Language", "zh-CN,zh;q=0.9")
 //        		.addHeader("Cookie", "s_ViewType=10")
         		// .setHttpProxy(new HttpHost("127.0.0.1",8888))
-        		.setDisableCookieManagement(true)
-//        		.addCookie("www.dianping.com", "_hc.v", "567d6b73-87bd-0529-d84f-ce567653edc8.1513747703")
-//        		.addCookie("www.dianping.com", "cy", "1")
-//        		.addCookie("www.dianping.com", "cye", "shanghai")
-//        		.addCookie("www.dianping.com", "_lx_utm", "utm_source%3DBaidu%26utm_medium%3Dorganic")
-//        		.addCookie("www.dianping.com", "_lxsdk", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c8")
-//        		.addCookie("www.dianping.com", "_lxsdk_cuid", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c8")
-//        		.addCookie("www.dianping.com", "_lxsdk_s", "160d3b2ed33-59f-f5d-17c%7C%7C19")
+//        		.setDisableCookieManagement(true)
+        		.addCookie("www.dianping.com", "_hc.v", "567d6b73-87bd-0529-d84f-ce567653edc8.1513747703")
+        		.addCookie("www.dianping.com", "cy", "1")
+        		.addCookie("www.dianping.com", "cye", "shanghai")
+        		.addCookie("www.dianping.com", "_lx_utm", "utm_source%3DBaidu%26utm_medium%3Dorganic")
+        		.addCookie("www.dianping.com", "_lxsdk", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c8")
+        		.addCookie("www.dianping.com", "_lxsdk_cuid", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c8")
+        		.addCookie("www.dianping.com", "_lxsdk_s", "160d3b2ed33-59f-f5d-17c%7C%7C19")
         		//        		.setDisableCookieManagement(true)
                 .setRetryTimes(99) // 就我的经验,这个重试一般用处不大,他是httpclient内部重试
                 .setTimeOut(35000)// 在使用代理的情况下,这个需要设置,可以考虑调大线程数目
@@ -83,7 +83,7 @@ public class StarCrawler {
         create.setScheduler(redisScheduler)
         		.setDownloader(new WebMagicCustomOfflineProxyDownloader());
         //http://www.dianping.com/shop/92974819/review_all
-        		create.thread(200).addUrl("http://www.dianping.com/shop/92886319/review_all")
+        		create.thread(200).addUrl("http://www.dianping.com/shop/93646843/review_all")
                 .run();
         
     }

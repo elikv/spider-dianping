@@ -19,7 +19,7 @@ import us.codecraft.webmagic.model.annotation.TargetUrl;
 //		+ "|c")
 
 @Component
-public class DianPingInfo implements AfterExtractor  {
+public class DianPingInfo  implements AfterExtractor   {
 	
 	@ExtractBy("//div[@class=\"basic-info\"]/h1[@class=\"shop-name\"]/text()")
 	private String shopName;
@@ -51,12 +51,23 @@ public class DianPingInfo implements AfterExtractor  {
 	private String env;
 	private String service;
 	private String cookStyle;
-	
+	private String shopId;
 	private String threadNo;
 	
 	private String id;
 	
-	private String shopId;
+	//好评数
+	@ExtractBy("//div[@class=\"comment-filter-box clearfix J-filter\"]/label[@class=\"filter-item J-filter-good\"]/span[@class=\"count\"]/text()")
+	private String good;
+	
+	//中评数
+	@ExtractBy("//div[@class=\"comment-filter-box clearfix J-filter\"]/label[@class=\"filter-item J-filter-common\"]/span[@class=\"count\"]/text()")
+	private String common;
+	//差评数
+	@ExtractBy("//div[@class=\"comment-filter-box clearfix J-filter\"]/label[@class=\"filter-item J-filter-bad\"]/span[@class=\"count\"]/text()")
+	private String bad;
+	
+	
 	
 	
 	public String getThreadNo() {
@@ -144,13 +155,32 @@ public class DianPingInfo implements AfterExtractor  {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public String getGood() {
+		return good;
+	}
+	public void setGood(String good) {
+		this.good = good;
+	}
+	public String getCommon() {
+		return common;
+	}
+	public void setCommon(String common) {
+		this.common = common;
+	}
+	public String getBad() {
+		return bad;
+	}
+	public void setBad(String bad) {
+		this.bad = bad;
+	}
 	
 	public String getShopId() {
 		return shopId;
 	}
-	public void setshopId(String shopId) {
+	public void setShopId(String shopId) {
 		this.shopId = shopId;
 	}
+	
 	
 
 	
@@ -169,10 +199,12 @@ public class DianPingInfo implements AfterExtractor  {
 	                ", url='" + url + '\'' +
 	                ", img='" + img + '\'' +
 	                ", shopId='" + shopId + '\'' +
+	                ", good='" + good + '\'' +
+	                ", common='" + common + '\'' +
+	                ", bad='" + bad + '\'' +
 	                
 	                '}';
 	    }
-	@Override
 	public void afterProcess(Page page) {
 //		System.out.println(  average  );
 //		average=average.split("：")[1].split("元")[0];
@@ -211,6 +243,9 @@ public class DianPingInfo implements AfterExtractor  {
 		address = address.trim();
 		cookStyle = cookStyle.trim();
 		tag = tag.trim();
+		good = good.trim().replace("(", "").replace(")", "");
+		common = common.trim().replace("(", "").replace(")", "");
+		bad = bad.trim().replace("(", "").replace(")", "");
 	}
 
 	

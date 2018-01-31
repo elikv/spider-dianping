@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 
@@ -20,7 +19,7 @@ import org.springframework.stereotype.Component;
 public class Jdbc {  
   
     // 表示定义数据库的用户名  
-    private static String USERNAME ="root";  
+    private static String USERNAME ="";  
   
     // 定义数据库的密码  
     private static String PASSWORD="";  
@@ -29,7 +28,7 @@ public class Jdbc {
     private static String DRIVER = "com.mysql.jdbc.Driver";  
   
     // 定义访问数据库的地址  bp1853qt67sqaf4svo
-    private static String URL = "jdbc:mysql://localhost:3306/spider";  
+    private static String URL = "";  
   
     // 定义数据库的链接  
     private Connection connection;  
@@ -198,7 +197,7 @@ public class Jdbc {
     }  
     
     public static List<Map<String, Object>> findAll() throws IllegalAccessException, InvocationTargetException{  
-        String sql = "select * from t_shop group BY shopName having count(shopName)>1";  
+        String sql = "select * from t_shop group BY url having count(url)>1";  
         //创建填充参数的list  
         List<Object> paramList = new ArrayList<Object>();  
         List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
@@ -261,6 +260,10 @@ public class Jdbc {
     	
     	
     }
+    
+    public static void main(String[] args) throws IllegalAccessException, InvocationTargetException, SQLException {
+    	new Jdbc().removeDuplicate();
+	}
  
     
   

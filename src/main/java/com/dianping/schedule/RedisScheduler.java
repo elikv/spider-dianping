@@ -101,6 +101,9 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
      */  
     @Override
     public synchronized Request poll(Task task) {
+//    	Site site = task.getSite();
+//    	site.setUserAgent(UserAgentUtils.radomUserAgent());
+    			
         Jedis jedis = pool.getResource();
         try {
             String url = jedis.lpop(getQueueKey(task));

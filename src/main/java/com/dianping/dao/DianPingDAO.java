@@ -4,9 +4,10 @@ package com.dianping.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
+import com.dianping.model.AppraiseEntity;
 import com.dianping.model.DianPingInfo;
 import com.dianping.model.RankShopInfo;
 import com.dianping.model.ShopStarEntity;
@@ -53,6 +54,12 @@ public interface DianPingDAO {
     public List<String>findShopIdByStar();
     
     public void updateStar(ShopStarEntity shopStar);
+    /**
+     * 添加评价信息
+     * @param appraiseEntity
+     */
+    public void addAppraise(AppraiseEntity appraiseEntity);
+    
     
     public void addStar(ShopStarEntity shopStar);
     
@@ -62,6 +69,6 @@ public interface DianPingDAO {
     //通过排行榜数据 查找上榜次数最多的 shopId
     public List<String> findStarShopId();
     
-    public List<RankShopInfo>findRecommend();
+    public List<RankShopInfo>findRecommend(@Param("category")String category);
     
 }

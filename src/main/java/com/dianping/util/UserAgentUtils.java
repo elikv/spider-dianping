@@ -23,6 +23,10 @@ public class UserAgentUtils {
         Random random = new Random();
         return list.get(random.nextInt(list.size()));
     }
+    
+    public static String BaiduSpider(){
+        return "Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)";
+    }
 }
  
 

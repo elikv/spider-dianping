@@ -91,11 +91,14 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<!-- 拦截设置 -->
+	 
 	<servlet-mapping>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	
+ 
 	
 	<servlet>
         <servlet-name>DrungStatView</servlet-name>
@@ -105,6 +108,8 @@
         <servlet-name>DrungStatView</servlet-name>
         <url-pattern>/dungclient/*</url-pattern>
 </servlet-mapping>
+
+
  
     <!-- 错误跳转页面 -->
     <error-page>

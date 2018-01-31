@@ -8,7 +8,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 public final class URLUtils {
 	
-	public final static  String[] categoryId= {"101","113","117","132","111","112","116",
+	public final static  String[] categoryId= {"101","113","117","111","116",
 			"114","103","508","115","102","109","106","104","248","3243",
 			"251","26481","203","107","105","215","219","247","1783","118",
 			"110","34014","34032","34015"};
@@ -35,14 +35,7 @@ public final class URLUtils {
 			params.add(new BasicNameValuePair("rankType",URLUtils.rankType[i]));
 			needParams.add(params);
 		}
-		//纯 按菜系分类
-		for(int i=0;i<categoryId.length;i++){
-			List<NameValuePair> params = new ArrayList<NameValuePair>();
-			params.add(new BasicNameValuePair("cityId","1"));
-			params.add(new BasicNameValuePair("shopType","10"));
-			params.add(new BasicNameValuePair("categoryId",URLUtils.categoryId[i]));
-			needParams.add(params);
-		}
+		
 		//按 (热门，口味，环境，服务)/菜系 分类
 		for(int i=0;i<rankType.length;i++){
 			for(int j=0;j<categoryId.length;j++){

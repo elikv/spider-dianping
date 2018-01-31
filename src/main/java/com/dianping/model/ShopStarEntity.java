@@ -172,7 +172,6 @@ public class ShopStarEntity implements AfterExtractor  {
 	    }
 	   
 	 //http://www.dianping.com/shop/17182037/review_all
-	@Override
 	public void afterProcess(Page page) {
 //		System.out.println(  average  );
 //		average=average.split("：")[1].split("元")[0];

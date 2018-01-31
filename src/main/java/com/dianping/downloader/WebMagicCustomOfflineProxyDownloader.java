@@ -86,7 +86,6 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
 
 
 
-    @Override
     public void setThread(int thread) {
         httpClientGenerator.setPoolSize(thread);
     }
@@ -152,7 +151,7 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
         }
     }
 
-    protected boolean needOfflineProxy(IOException e) {
+    protected boolean needOfflineProxy(Exception e) {
         return false;
     }
 
@@ -201,7 +200,6 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
         return page;
     }
 
-    @Override
     public Page download(Request request, Task task) {
         if (task == null || task.getSite() == null) {
             throw new NullPointerException("task or site can not be null");
@@ -228,7 +226,7 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
             onSuccess(request,page);
             logger.debug("downloading page success {}", page);
             return page;
-        } catch (IOException e) {
+        } catch (Exception e) {
             if (needOfflineProxy(e)) {
                 logger.warn("发生异常:{},IP下线");
                 PoolUtil.offline(requestContext.getHttpClientContext());// 由IP异常导致,直接重试

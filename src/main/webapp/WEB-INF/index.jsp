@@ -2,7 +2,7 @@
 <!DOCTYPE HTML >
 <html>
 <head>
-    <title>今晚吃啥啊</title>
+    <title></title>
     <meta http-equiv="Content-Type" content="text/html ; charset=utf-8">
 	<meta http-equiv="description" content="what2Eat">
 	<link rel="stylesheet" type="text/css" href="css/style.css">

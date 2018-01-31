@@ -1,4 +1,6 @@
 package com.dianping.schedule;
+import java.util.Map;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -6,11 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
+import com.dianping.util.UserAgentUtils;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 import us.codecraft.webmagic.Request;
+import us.codecraft.webmagic.Site;
 import us.codecraft.webmagic.Task;
 import us.codecraft.webmagic.scheduler.DuplicateRemovedScheduler;
 import us.codecraft.webmagic.scheduler.MonitorableScheduler;
@@ -103,6 +107,19 @@ public class StarRedisScheduler extends DuplicateRemovedScheduler implements
      */  
     @Override
     public synchronized Request poll(Task task) {
+    	Site site = task.getSite();
+    	Map<String, Map<String, String>> allCookies = site.getAllCookies();
+    	//160d3b2ed33-59f-f5d-17c%7C%7C19
+    	Map<String, String> cookies = allCookies.get("www.dianping.com");
+    	String _lxsdk_s = cookies.get("_lxsdk_s");
+    	//160d3b2ed33-59f-f5d-17c%7C%7C
+    	String prex = _lxsdk_s.substring(0,_lxsdk_s.length()-2);
+    	//19
+    	int no = Integer.parseInt(_lxsdk_s.substring(_lxsdk_s.length()-2,_lxsdk_s.length()));
+    	no = no +1;
+    	site.addCookie("www.dianping.com", "_lxsdk_s", prex+no)
+    	.setUserAgent(UserAgentUtils.radomUserAgent());
+		
         Jedis jedis = pool.getResource();
         try {
             String url = jedis.lpop(getQueueKey(task));

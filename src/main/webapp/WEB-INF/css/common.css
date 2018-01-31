@@ -1,0 +1,74 @@
+/*common.css*/
+/*大众点评logo*/
+.navbar-brand{
+	background-image: url(../img/logo.jpg);
+	width: 170px;
+	background-size: 61%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+/*左边导航栏*/
+.side-bar .list-group-item{
+	border:0;
+	border-radius: 5px;
+}
+.side-bar .list-group-item.active{
+	background-color: #80d8ff;
+}
+/*图片大小设置*/
+img {
+	display: block;
+	max-width: 100%;
+	min-width: 100%;
+	height:200px;
+	border-radius: 10px;/*图片圆角*/
+}
+/*餐厅标题*/
+.foodlist-item .tittle{
+	font-size: 18px;
+	font-weight: bold;
+	color: #80d8ff;
+}
+
+.foodlist-item .tittle:hover{
+	/*background-color: #81d4fa;**/
+	font-size:20px;
+	color: #0091ea;
+}
+/*餐厅信息框*/
+.food-info{
+	width: 400px;
+	height: 180px;
+}
+/*评分*/
+.grade{
+	padding-top: 15px;
+}
+
+ul{
+	padding-left: 3px;
+	list-style-type: none;
+}
+/*餐厅信息*/
+.foodlist .food-info li{
+	color:#999;
+	font-weight: bold;
+}
+/*餐厅列表框设置*/
+.foodlist-item{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-bottom: 3px solid #eee;
+
+}
+.foodlist-item:first-child{
+	margin-top: 0;
+}
+
+/*右边空白*/
+.side-bar-card{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	background-color: rgba(0,0,0,0.1);
+
+}
