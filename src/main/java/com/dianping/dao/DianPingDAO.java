@@ -58,8 +58,7 @@ public interface DianPingDAO {
      * 添加评价信息
      * @param appraiseEntity
      */
-    public void addAppraise(AppraiseEntity appraiseEntity);
-    
+   
     
     public void addStar(ShopStarEntity shopStar);
     
@@ -68,6 +67,22 @@ public interface DianPingDAO {
     public int findMaxPage(String shopId);
     //通过排行榜数据 查找上榜次数最多的 shopId
     public List<String> findStarShopId();
+    
+    
+    //-----------------------AppraiseEntity----------------------------------
+    public void addAppraise(AppraiseEntity appraiseEntity);
+    /**
+     *  通过shopId找AppraiseEntity
+     * @param shopId
+     * @return
+     */
+    public AppraiseEntity findByShopId(String shopId);
+    
+    public void updateAppraiseEntity(AppraiseEntity appraiseEntity);
+    
+    
+    
+    //------------------------RankShopInfo-------------------------------------
     
     public List<RankShopInfo>findRecommend(@Param("category")String category);
     

@@ -32,7 +32,12 @@ public class DianPingDaoPipeline implements PageModelPipeline<DianPingInfo> {
     	BeanUtils.copyProperties(dianPingInfo, appraiseEntity);
     	
     	logger.info("正在添加"+dianPingInfo.getShopName());
-    	jobInfoDAO.addAppraise(appraiseEntity);
+    	AppraiseEntity findByShopId = jobInfoDAO.findByShopId(dianPingInfo.getShopId());
+    	if(findByShopId==null){
+    		jobInfoDAO.addAppraise(appraiseEntity);
+    	}else{
+    		jobInfoDAO.updateAppraiseEntity(appraiseEntity);
+    	}
     	jobInfoDAO.add(dianPingInfo);
     }
 }

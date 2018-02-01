@@ -129,15 +129,7 @@
 
 	</insert>
 	
-	<insert id="addAppraise" parameterType="com.dianping.model.AppraiseEntity" >
-		insert
-			 into 
-		t_shop_appraise
-			 (shopId,good,common,bad,score1,score2,createTime)
-		 values
-		    (#{shopId},#{good},#{common},#{bad},#{score1},#{score2},now())
-
-	</insert>
+	
 	
 	
 	<select id="findMaxPage" parameterType="String">
@@ -150,15 +142,62 @@
 	</select>
 	
 	<select id='findRecommend' resultType="com.dianping.model.RankShopInfo" parameterType="String" >
-		select shopName,address,defaultPic,avgPrice,refinedScore1,refinedScore2,refinedScore3,shopId,url from t_rank_shop where refinedScore1>8 
+		
+		SELECT DISTINCT(r.shopId),t.shopName,t.rankTime,t.refinedScore1,t.refinedScore2,t.refinedScore3,t.address,t.defaultPic,t.avgPrice,t.url
+		FROM (
+		SELECT shopId,MAX(rankTime)as MaxTime,count(shopId) as num
+		      FROM t_rank_shop
+		      GROUP BY shopId
+		) r
+		INNER JOIN t_rank_shop t
+		ON t.shopId = r.shopId AND t.rankTime = r.MaxTime
+		where t.refinedScore1>8
 		<if test="category!=null and category!=''">
-			and categoryId = #{category}
+			and t.categoryId = #{category}
 		</if>
-		GROUP BY shopId ORDER BY count(shopId) desc
+		ORDER BY r.num desc
 		
 	</select>
 	
 	
+	<insert id="addAppraise" parameterType="com.dianping.model.AppraiseEntity" >
+		insert
+			 into 
+		t_shop_appraise
+			 (shopId,good,common,bad,score1,score2,createTime)
+		 values
+		    (#{shopId},#{good},#{common},#{bad},#{score1},#{score2},now())
+
+	</insert>
+	
+	<select id='findByShopId' resultType="com.dianping.model.AppraiseEntity" parameterType="String" >
+		select * from t_shop_appraise where shopId = #{shopId}
+	
+	</select>
+	
+	<update id="updateAppraiseEntity" parameterType="com.dianping.model.AppraiseEntity">
+		update t_shop_appraise
+		<trim prefix="SET" suffixOverrides=",">
+			createTime = now(),
+			<if test="good !=null and good !=''">
+				good = #{good},
+			</if>
+			<if test="common !=null and common !=''">
+				common = #{common},
+			</if>
+			<if test="bad !=null and bad !=''">
+				bad = #{bad},
+			</if>
+			<if test="score1 !=null and score1 !=''">
+				score1 = #{score1},
+			</if>
+			<if test="score2 !=null and score2 !=''">
+				score2 = #{score2},
+			</if>
+			
+		</trim>
+		where shopId = #{shopId}
+	</update>
 	
 	
 	
