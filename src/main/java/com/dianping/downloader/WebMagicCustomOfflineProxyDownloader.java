@@ -151,7 +151,7 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
         }
     }
 
-    protected boolean needOfflineProxy(Exception e) {
+    protected boolean needOfflineProxy(IOException e) {
         return false;
     }
 
@@ -226,7 +226,7 @@ public class WebMagicCustomOfflineProxyDownloader extends AbstractDownloader  {
             onSuccess(request,page);
             logger.debug("downloading page success {}", page);
             return page;
-        } catch (Exception e) {
+        } catch (IOException e) {
             if (needOfflineProxy(e)) {
                 logger.warn("发生异常:{},IP下线");
                 PoolUtil.offline(requestContext.getHttpClientContext());// 由IP异常导致,直接重试

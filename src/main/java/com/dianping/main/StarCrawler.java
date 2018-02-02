@@ -9,6 +9,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
+import com.dianping.config.RedisConfig;
 import com.dianping.downloader.WebMagicCustomOfflineProxyDownloader;
 import com.dianping.jdbc.Jdbc;
 import com.dianping.model.ShopStarEntity;
@@ -77,7 +78,7 @@ public class StarCrawler {
         // Step3 使用代理规则初始化默认IP池
         dungProxyContext.setDefaultOffliner(DianPingOfflinerImpl.class);
         IpPoolHolder.init(dungProxyContext);
-        StarRedisScheduler redisScheduler = new StarRedisScheduler(new JedisPool(new JedisPoolConfigExtend(),"123.206.206.111",6379,5000,"W1314zan1g"));
+        StarRedisScheduler redisScheduler = new StarRedisScheduler(new JedisPool(new JedisPoolConfigExtend(),RedisConfig.HOST_ADDRESS,6379,5000,RedisConfig.PASSWORD));
         OOSpider create = OOSpider.create(site,shopStarDaoPipeline, ShopStarEntity.class);
 //        create.setExitWhenComplete(false);
         create.setScheduler(redisScheduler)

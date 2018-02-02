@@ -102,6 +102,11 @@ public class RedisScheduler extends DuplicateRemovedScheduler implements
     @Override
     public synchronized Request poll(Task task) {
 //    	Site site = task.getSite();
+//    	Random random = new Random();
+//    	int nextInt = random.nextInt(100);
+//    	site.addCookie("www.dianping.com", "_lxsdk", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c"+nextInt)
+//		.addCookie("www.dianping.com", "_lxsdk_cuid", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c"+nextInt)
+//		.addCookie("www.dianping.com", "_lxsdk_s", "160d3b2ed33-59f-f5d-17c%7C%7C"+nextInt);
 //    	site.setUserAgent(UserAgentUtils.radomUserAgent());
     			
         Jedis jedis = pool.getResource();

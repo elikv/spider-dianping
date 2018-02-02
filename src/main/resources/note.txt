@@ -57,3 +57,30 @@ RETURN REPLACE(SUBSTRING(SUBSTRING_INDEX(x, delim, pos),
 学术做法
 情感分析  
 recsys推荐系统  recsys会议会有一些文章
+
+
+
+
+
+好评 差评
+
+如何判断一家餐厅的质量高低，
+1.好评率
+2.评论数越多，可信度是否越高  →是  威尔逊区间、缺点：冷门的好店 被排下去了
+3.贝叶斯评价  增加了一个补偿系数  把所有店的评价数统一   
+
+图表
+
+上海菜系
+上海优质图谱
+上海地区优质占比
+
+不能有
+//        		.addCookie("www.dianping.com", "_lx_utm", "utm_source%3DBaidu%26utm_medium%3Dorganic")
+//        		.addCookie("www.dianping.com", "_lxsdk", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c7")
+//        		.addCookie("www.dianping.com", "_lxsdk_cuid", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c7")
+//        		.addCookie("www.dianping.com", "_lxsdk_s", "160d3b2ed33-59f-f5d-17c%7C%7C18")
+
+
+
+
