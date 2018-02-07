@@ -72,3 +72,7 @@ ul{
 	background-color: rgba(0,0,0,0.1);
 
 }
+
+/*人均价格框*/
+.startPrice{width:50px;}
+.endPrice{width:50px;}

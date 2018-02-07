@@ -19,4 +19,14 @@ public class AppraiseEntity {
 	private String score1;
 	//第二种打分
 	private String score2;
+	
+	public AppraiseEntity(String shopId,String bad ,String common,String good){
+		this.shopId=shopId;
+		this.good=good;
+		this.common=common;
+		this.bad=bad;
+	}
+	public AppraiseEntity(){
+		
+	}
 }

@@ -3,8 +3,8 @@ package com.dianping.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import com.dianping.model.AppraiseEntity;
@@ -84,6 +84,6 @@ public interface DianPingDAO {
     
     //------------------------RankShopInfo-------------------------------------
     
-    public List<RankShopInfo>findRecommend(@Param("category")String category);
+    public List<RankShopInfo>findRecommend(Map<String, Object> map);
     
 }

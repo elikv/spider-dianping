@@ -18,10 +18,10 @@
 	<div class="container">
 		<div class="navbar-header">
 			<!-- <div class="navbar-brand">人气美食推荐系统</div> -->
-		<a href="index.html" class="navbar-brand"></a>
+		<a href="${pageContext.request.contextPath}/recommend" class="navbar-brand"></a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li><a href="#">首页</a></li>
+			<li><a href="${pageContext.request.contextPath}/recommend">首页</a></li>
 			<li><a href="#">今日推荐</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
@@ -50,6 +50,10 @@
 	</div>
 	</div>
 	<div class="col-sm-8">
+		<div class="priceSortDiv">
+			人均￥<input type="text" class="startPrice priceSort" value="${param.start}">-￥<input type="text" class="endPrice priceSort" value="${param.end}">
+		<a href="#" type="submit" class="sortSubmit" role="botton">确定</a>
+		</div>
 	<div class="foodlist">
 	<c:forEach items="${data}" var="list">
 		<div class="foodlist-item clearfix">
@@ -99,12 +103,12 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
 
-                    <li><a href="${pageContext.request.contextPath}/recommend?pageNum=1&${category}">第一页</a></li>
+                    <li><a href="${pageContext.request.contextPath}/recommend?pageNum=1&${param.category}&start=${param.start}&end=${param.end}">第一页</a></li>
 
                     <!--上一页-->
                     <li>
                         <c:if test="${pageInfo.hasPreviousPage}">
-                            <a href="${pageContext.request.contextPath}/recommend?pageNum=${pageInfo.pageNum-1}&category=${param.category}" aria-label="Previous">
+                            <a href="${pageContext.request.contextPath}/recommend?pageNum=${pageInfo.pageNum-1}&category=${param.category}&start=${param.start}&end=${param.end}" aria-label="Previous">
                                 <span aria-hidden="true">«</span>
                             </a>
                         </c:if>
@@ -116,21 +120,21 @@
                             <li class="active"><a href="#">${page_num}</a></li>
                         </c:if>
                         <c:if test="${page_num != pageInfo.pageNum}">
-                            <li><a href="${pageContext.request.contextPath}/recommend?pageNum=${page_num}&category=${param.category}">${page_num}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/recommend?pageNum=${page_num}&category=${param.category}&start=${param.start}&end=${param.end}">${page_num}</a></li>
                         </c:if>
                     </c:forEach>
 
                     <!--下一页-->
                     <li>
                         <c:if test="${pageInfo.hasNextPage}">
-                            <a href="${pageContext.request.contextPath}/recommend?pageNum=${pageInfo.pageNum+1}&category=${param.category}"
+                            <a href="${pageContext.request.contextPath}/recommend?pageNum=${pageInfo.pageNum+1}&category=${param.category}&start=${param.start}&end=${param.end}"
                                aria-label="Next">
                                 <span aria-hidden="true">»</span>
                             </a>
                         </c:if>
                     </li>
 
-                    <li><a href="${pageContext.request.contextPath}/recommend?pageNum=${pageInfo.pages}&category=${param.category}">最后一页</a></li>
+                    <li><a href="${pageContext.request.contextPath}/recommend?pageNum=${pageInfo.pages}&category=${param.category}&start=${param.start}&end=${param.end}">最后一页</a></li>
                 </ul>
             </nav>
         </div>
@@ -147,7 +151,6 @@
 console.log("我进来辣！")
 //切换 sidebar active
 $(function(){
-	console.log(location.href);
 	$('.list-group-item').removeClass("active");
 	$('.list-group-item').each(function(){
 		var context = location.href.split('recommend');
@@ -163,4 +166,27 @@ $(function(){
 	});
 });
 
+//给botton 添加动态地址
+$(".priceSort").blur(function(){
+	console.log(location.href);
+	var baseUrl =location.href;
+	//http://localhost:8080/spider-dianping2/recommend?pageNum=1&category=116&start=200&end=300
+	if(baseUrl.indexOf('start')>=0){
+		var index = baseUrl.indexOf('start');
+		console.log(baseUrl.substring(0,index-1));
+		//http://localhost:8080/spider-dianping2/recommend?pageNum=1&category=116
+		baseUrl = baseUrl.substring(0,index-1);
+	}
+	var start = $(".startPrice").val();
+	var end = $(".endPrice").val();
+	if(baseUrl.indexOf("?")<0){
+		baseUrl = baseUrl + "?";
+	}
+	//http://localhost:8080/spider-dianping2/recommend?pageNum=1&category=116#
+	if(baseUrl.indexOf("#")>=0){
+		baseUrl = baseUrl.replace("#","");
+	}
+	console.log(baseUrl+'\&start='+start+'\&end='+end);
+	$(".sortSubmit").attr('href',baseUrl+'\&start='+start+'\&end='+end)
+})
 </script>

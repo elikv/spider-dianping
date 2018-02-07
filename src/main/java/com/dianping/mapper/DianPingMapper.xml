@@ -141,9 +141,9 @@
 		
 	</select>
 	
-	<select id='findRecommend' resultType="com.dianping.model.RankShopInfo" parameterType="String" >
+	<select id='findRecommend' resultType="com.dianping.model.RankShopInfo" parameterType="java.util.Map" >
 		
-		SELECT DISTINCT(r.shopId),t.shopName,t.rankTime,t.refinedScore1,t.refinedScore2,t.refinedScore3,t.address,t.defaultPic,t.avgPrice,t.url
+		SELECT r.shopId,t.shopName,t.refinedScore1,t.refinedScore2,t.refinedScore3,t.address,t.defaultPic,t.avgPrice,t.url
 		FROM (
 		SELECT shopId,MAX(rankTime)as MaxTime,count(shopId) as num
 		      FROM t_rank_shop
@@ -155,6 +155,13 @@
 		<if test="category!=null and category!=''">
 			and t.categoryId = #{category}
 		</if>
+		<if test="start!=null and start!=''">
+			and t.avgPrice &gt;= #{start,jdbcType=DOUBLE}
+		</if>
+		<if test="end!=null and end!=''">
+			and t.avgPrice &lt;= #{end,jdbcType=DOUBLE}
+		</if>
+		GROUP BY (r.shopId)
 		ORDER BY r.num desc
 		
 	</select>
