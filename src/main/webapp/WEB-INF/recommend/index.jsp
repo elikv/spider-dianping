@@ -12,6 +12,7 @@
 	<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
      <link rel="stylesheet" type="text/css" href="${APP_PATH}/WEB-INF/css/common.css">
     <link rel="stylesheet" type="text/css" href="css/common.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 	<div class="navbar navbar-default">
@@ -66,11 +67,13 @@
            		口味:<span>${list.refinedScore1}</span>
            		环境:<span>${list.refinedScore2}</span>
            		服务:<span>${list.refinedScore3}</span>
+           		<span class='pull-right'>${list.categoryId}</span>
             </li>
         	<br>
        	 	<li><span>人均：</span>${list.avgPrice}元</li>
        		 <br>
        	 	<li><span>地址 :</span>${list.address}</li>
+       	 	<span class='pull-right'>打分:${list.categoryId}</span>
         	<br>
         	<button type="button" class="btn btn-info btn-sm">加入收藏</button>
     		</ul>

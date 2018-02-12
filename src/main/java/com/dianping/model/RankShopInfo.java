@@ -19,7 +19,7 @@ public class RankShopInfo {
 	
 	private String defaultPic;
 	
-	private String shopId;
+	private int shopId;
 	
 	private String url;
 	
@@ -34,4 +34,7 @@ public class RankShopInfo {
 	private String refinedScore1;
 	private String refinedScore2;
 	private String refinedScore3;
+	
+	private String id;
+	
 }

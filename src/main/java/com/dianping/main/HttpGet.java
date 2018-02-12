@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -47,7 +48,7 @@ public class HttpGet {
 	RedisScheduler redisScheduler = new RedisScheduler(new JedisPool(new JedisPoolConfigExtend(),RedisConfig.HOST_ADDRESS,6379,5000,RedisConfig.PASSWORD));
 	
 	
-	
+	@Transactional(rollbackFor=Throwable.class)
 	public void doGet() throws ParseException, InterruptedException {
 		
 		CrawlerHttpClient client = CrawlerHttpClientBuilder.create().build();

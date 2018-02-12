@@ -20,4 +20,26 @@
 		</foreach>
 	</insert>
 	
+	<select id="findByShopId" resultType="com.dianping.model.RankShopInfo" parameterType="INTEGER">
+		select * from t_rank_shop where shopId = #{shopId} order by rankTime desc
+	</select>
+	
+	<select id="findByShopIdAndRankTime" resultType="com.dianping.model.RankShopInfo" parameterType="java.util.Map">
+		select * from t_rank_shop where shopId = #{shopId} and rankTime = #{rankTime} order by rankTime desc
+	</select>
+	
+	<select id="findByShopIdAndRankType" resultType="com.dianping.model.RankShopInfo" parameterType="java.util.Map">
+		select * from t_rank_shop where shopId = #{shopId}  and rankType=#{rankType} order by rankTime desc
+	</select>
+	
+	<select id='findShopIdAll' resultType="String">
+		select shopId from t_rank_shop GROUP BY shopId
+	</select>
+	
+	<delete id='deletefromId' parameterType="String">
+		delete from t_rank_shop where id =#{id}
+	</delete>
+	
+	
+	
 </mapper>

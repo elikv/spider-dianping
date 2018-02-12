@@ -19,7 +19,7 @@ public class Solve {
 		ArrayList<DianPingInfo> findAll = dianpingDao.findAll();
 		for (DianPingInfo dianPingInfo : findAll) {
 			if(StringUtils.isEmpty(dianPingInfo.getShopId())){
-				dianPingInfo.setshopId( dianPingInfo.getUrl().split("/")[4]);
+				dianPingInfo.setShopId( dianPingInfo.getUrl().split("/")[4]);
 			dianpingDao.update(dianPingInfo);
 			}
 		}

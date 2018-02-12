@@ -141,16 +141,19 @@
 		
 	</select>
 	
+		
+	
 	<select id='findRecommend' resultType="com.dianping.model.RankShopInfo" parameterType="java.util.Map" >
 		
-		SELECT r.shopId,t.shopName,t.refinedScore1,t.refinedScore2,t.refinedScore3,t.address,t.defaultPic,t.avgPrice,t.url
+		SELECT  tdd.`name` as categoryId,r.shopId,t.shopName,t.refinedScore1,t.refinedScore2,t.refinedScore3,t.address,t.defaultPic,t.avgPrice,t.url
 		FROM (
-		SELECT shopId,MAX(rankTime)as MaxTime,count(shopId) as num
+		SELECT shopId,MAX(rankTime)as MaxTime,count(shopId) as num,categoryId 
 		      FROM t_rank_shop
 		      GROUP BY shopId
 		) r
-		INNER JOIN t_rank_shop t
+		inner JOIN t_rank_shop t
 		ON t.shopId = r.shopId AND t.rankTime = r.MaxTime
+		LEFT JOIN t_dic_data tdd on tdd.code=r.categoryId
 		where t.refinedScore1>8
 		<if test="category!=null and category!=''">
 			and t.categoryId = #{category}

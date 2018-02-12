@@ -45,7 +45,7 @@ public class AutoJobCrawler {
 	 * @throws InvocationTargetException
 	 * @throws SQLException
 	 */
-	@Scheduled(cron="0 0 18 * * ?")
+//	@Scheduled(cron="0 0 18 * * ?")
 	public void autoJobCrawler() throws IllegalAccessException, InvocationTargetException, SQLException{
         new Jdbc().removeDuplicate();
         restaurantCrawler.crawl();

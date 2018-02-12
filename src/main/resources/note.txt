@@ -75,12 +75,22 @@ recsys推荐系统  recsys会议会有一些文章
 上海优质图谱
 上海地区优质占比
 
+select shopid,rankTime,shopName,count(*) '该时间分组条数',sum(rankNo) '排名之和', count(*)*100-sum(rankNo) as score from t_rank_shop where refinedScore1>=8.0 GROUP BY rankTime,shopId
+
+
 不能有
 //        		.addCookie("www.dianping.com", "_lx_utm", "utm_source%3DBaidu%26utm_medium%3Dorganic")
 //        		.addCookie("www.dianping.com", "_lxsdk", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c7")
 //        		.addCookie("www.dianping.com", "_lxsdk_cuid", "1607264e5f624-0c8286770f8631-3b3e5906-1fa400-1607264e5f7c7")
 //        		.addCookie("www.dianping.com", "_lxsdk_s", "160d3b2ed33-59f-f5d-17c%7C%7C18")
 
+redis-server /etc/redis/6379.conf
+config set stop-writes-on-bgsave-error no
 
+冷却定理
 
+会把这家店的历史排名，根据时间来冷却，会把那些起伏落差大的店，压缩成比较稳定的进行判断
+
+考虑一种解决方案  一家店同一天可能进了多个排行榜
+所以先查出一家店的所有历史记录，然后根据rankTime排序 主要以当天的rankNo占很大权重
 
