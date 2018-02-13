@@ -23,14 +23,6 @@ public class RankServiceImpl {
 	
 	private Logger logger = LoggerFactory.getLogger(RankServiceImpl.class);
 
-	public void xxx(int shopId){
-		StringBuffer sb = new StringBuffer();
-		List<RankShopInfo> list = rankShopDao.findByShopId(shopId);
-		for (RankShopInfo rankShopInfo : list) {
-			List<RankShopInfo> list2 = findByShopIdAndRankTime(rankShopInfo.getShopId(),rankShopInfo.getRankTime().toString());
-			
-		}
-	}
 	
 	public List<RankShopInfo> findByShopIdAndRankTime (int shopId,String rankTime){
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -60,7 +52,6 @@ public class RankServiceImpl {
 	 * @param shopId
 	 */
 	public void distinct(int shopId){
-		List<RankShopInfo> arrayList = new ArrayList<RankShopInfo>();
 		Set<ArrayList<String>> set = new HashSet<ArrayList<String>>();
 		List<RankShopInfo> findByShopId = rankShopDao.findByShopId(shopId);
 		for (RankShopInfo rankShopInfo : findByShopId) {

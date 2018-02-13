@@ -19,11 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.dianping.algorithm.AlgorithmUtils;
 import com.dianping.config.RedisConfig;
 import com.dianping.dao.DianPingDAO;
+import com.dianping.dao.IShopIdRankTimeScoreDao;
 import com.dianping.dao.RankShopDao;
 import com.dianping.model.RankShopInfo;
+import com.dianping.model.ShopIdRankTimeScoreEntity;
 import com.dianping.schedule.RedisScheduler;
+import com.dianping.util.DistinctUtils;
 import com.dianping.util.JedisPoolConfigExtend;
 import com.dianping.util.URLUtils;
 import com.virjar.dungproxy.client.httpclient.CrawlerHttpClient;
@@ -44,6 +48,10 @@ public class HttpGet {
 	private RankShopDao rankShopDao;
 	@Autowired
 	private DianPingDAO dianPingDao;
+	@Autowired
+	private IShopIdRankTimeScoreDao shopIdRankTimeScoreDao;
+	@Autowired
+	private DistinctUtils distinctUtils;
 	
 	RedisScheduler redisScheduler = new RedisScheduler(new JedisPool(new JedisPoolConfigExtend(),RedisConfig.HOST_ADDRESS,6379,5000,RedisConfig.PASSWORD));
 	
@@ -63,6 +71,21 @@ public class HttpGet {
 			//5-15s
 			Thread.sleep(5000+rand.nextInt(10)*1000);
 		}
+		//去掉多余无用的数据
+		distinctUtils.distinctList();
+		updateNewtonCooling();
+	}
+	
+	public void updateNewtonCooling() throws ParseException{
+		long currentTimeMillis = System.currentTimeMillis();
+		List<ShopIdRankTimeScoreEntity> list = rankShopDao.findShopIdRankTimeScore();
+		for (ShopIdRankTimeScoreEntity shopIdRankTimeScoreEntity : list) {
+			double newtonCooling = AlgorithmUtils.NewtonCooling(shopIdRankTimeScoreEntity);
+			shopIdRankTimeScoreEntity.setCoolingScore(newtonCooling);
+			shopIdRankTimeScoreDao.update(shopIdRankTimeScoreEntity);
+		}
+		long now = System.currentTimeMillis()-currentTimeMillis;
+		logger.info("牛顿冷却总耗时："+now+"s,共处理了"+list.size()+"家店");
 	}
 	
 	public static void main(String[] args) throws ParseException, InterruptedException {

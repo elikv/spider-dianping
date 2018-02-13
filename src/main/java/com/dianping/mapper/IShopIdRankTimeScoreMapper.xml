@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dianping.dao.IShopIdRankTimeScoreDao">
+
+
+	<!-- 添加单条记录 -->
+	<insert id="add" parameterType="com.dianping.model.ShopIdRankTimeScoreEntity" >
+		insert
+			 into 
+		t_shopId_rankTime_score
+			 (shopId,rankTime,score,coolingScore,modifyTime)
+		 values
+		    (#{shopId},#{rankTime},#{score},#{coolingScore},#{modifyTime})
+
+	</insert>
+	
+	
+	
+	<update id="update" parameterType="com.dianping.model.ShopIdRankTimeScoreEntity">
+		update t_shopId_rankTime_score
+		<trim prefix="SET" suffixOverrides=",">
+			modifyTime = now(),
+			<if test="rankTime !=null and rankTime !=''">
+				rankTime = #{rankTime},
+			</if>
+			<if test="score !=null and score !=''">
+				score = #{score},
+			</if>
+			<if test="coolingScore !=null and coolingScore !=''">
+				coolingScore = #{coolingScore},
+			</if>
+		</trim>
+		where shopId = #{shopId}
+	</update>
+	
+	
+	<select id="findByShopId" parameterType="String" resultType="com.dianping.model.ShopIdRankTimeScoreEntity">
+		select * from t_shopId_rankTime_score where shopId = #{shopId}
+	</select>
+	
+	
+	
+	
+</mapper>

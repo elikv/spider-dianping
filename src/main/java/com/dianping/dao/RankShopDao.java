@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.dianping.model.RankShopInfo;
+import com.dianping.model.ShopIdRankTimeScoreEntity;
 
 
 /**
@@ -31,5 +32,10 @@ public interface RankShopDao {
     public List<String>findShopIdAll();
     
     public void deletefromId(String id);
+    /**
+     * 从t_rank_shop中寻找shopId-RankTime-Score关系
+     * @return
+     */
+    public List<ShopIdRankTimeScoreEntity> findShopIdRankTimeScore();
    
 }

@@ -36,6 +36,7 @@ public class DistinctUtils {
 	 * @param shopId
 	 */
 	public void distinct(int shopId){
+		long currentTimeMillis = System.currentTimeMillis();
 		Set<ArrayList<String>> set = new HashSet<ArrayList<String>>();
 		List<RankShopInfo> findByShopId = rankShopDao.findByShopId(shopId);
 		for (RankShopInfo rankShopInfo : findByShopId) {
@@ -50,6 +51,8 @@ public class DistinctUtils {
 				logger.info("正在删除shopId为"+rankShopInfo.getShopId()+"的重复项");
 			}
 		}
+		long seconds = (System.currentTimeMillis() - currentTimeMillis)/1000;
+		logger.info("删除完成，总耗时"+seconds+"s");
 	}
 	
 	public static void main(String[] args) {

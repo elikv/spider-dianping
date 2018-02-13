@@ -89,6 +89,26 @@ config set stop-writes-on-bgsave-error no
 
 冷却定理
 
+select shopid,GROUP_CONCAT(
+		a.score
+		ORDER BY
+			a.rankTime DESC SEPARATOR ','),
+GROUP_CONCAT(
+		a.rankTime
+		ORDER BY
+			a.rankTime DESC SEPARATOR ',')
+ from 
+(SELECT
+		shopid,
+		rankTime,
+		count(*) * 100 - sum(rankNo) AS score	FROM
+		t_rank_shop
+	WHERE
+		refinedScore1 >= 8.0
+	GROUP BY
+		rankTime,
+		shopId)a GROUP BY shopid
+
 会把这家店的历史排名，根据时间来冷却，会把那些起伏落差大的店，压缩成比较稳定的进行判断
 
 考虑一种解决方案  一家店同一天可能进了多个排行榜

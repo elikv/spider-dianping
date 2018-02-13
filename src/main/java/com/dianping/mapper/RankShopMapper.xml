@@ -40,6 +40,20 @@
 		delete from t_rank_shop where id =#{id}
 	</delete>
 	
+	<select id='findShopIdRankTimeScore'  resultType="com.dianping.model.ShopIdRankTimeScoreEntity">
+	select shopid,GROUP_CONCAT(a.score ORDER BY a.rankTime DESC SEPARATOR ',') as 'score',
+GROUP_CONCAT(a.rankTime ORDER BY a.rankTime DESC SEPARATOR ',') as 'ranTime'
+ from 
+(SELECT shopid,rankTime,count(*) * 100 - sum(rankNo) AS score	
+FROM t_rank_shop
+WHERE
+		refinedScore1 >= 8.0
+GROUP BY
+		rankTime,shopId)a
+		 GROUP BY shopid
+	</select>
+	
+	
 	
 	
 </mapper>
