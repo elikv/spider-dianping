@@ -2,11 +2,13 @@ package com.dianping.main;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,21 +58,37 @@ public class HttpGet {
 	RedisScheduler redisScheduler = new RedisScheduler(new JedisPool(new JedisPoolConfigExtend(),RedisConfig.HOST_ADDRESS,6379,5000,RedisConfig.PASSWORD));
 	
 	
+	
+	
+	public void rankSpider() {
+		
+	}
+	
+	
 	@Transactional(rollbackFor=Throwable.class)
 	public void doGet() throws ParseException, InterruptedException {
-		
+		List<RankShopInfo> list = new ArrayList<RankShopInfo>();
 		CrawlerHttpClient client = CrawlerHttpClientBuilder.create().build();
 		List<List<NameValuePair>> needParams = URLUtils.getParams();
+		int i=0;
 		for (List<NameValuePair> params : needParams) {
 			String data = client.get(URLUtils.baseUrl_rank,params,Charset.defaultCharset());
 			List<RankShopInfo> parseData = parseData(data);
-			if(!CollectionUtils.isEmpty(parseData)){
-				rankShopDao.addList(parseData);
+			if(parseData==null) {
+				//等待5分钟
+				Thread.sleep(1000*60*5);
+				continue;
 			}
+			list.addAll(parseData);
+			i= i+1;
+			logger.info("已完成："+i+"/"+needParams.size());
 			Random rand = new Random();
-			//5-15s
-			Thread.sleep(5000+rand.nextInt(10)*1000);
+			//7-27s
+			int second = 7000+rand.nextInt(20)*1000;
+			logger.info("等待"+second+"s后继续");
+			Thread.sleep(second);
 		}
+		rankShopDao.addList(list);
 		//去掉多余无用的数据
 		distinctUtils.distinctList();
 		updateNewtonCooling();
@@ -82,9 +100,13 @@ public class HttpGet {
 		for (ShopIdRankTimeScoreEntity shopIdRankTimeScoreEntity : list) {
 			double newtonCooling = AlgorithmUtils.NewtonCooling(shopIdRankTimeScoreEntity);
 			shopIdRankTimeScoreEntity.setCoolingScore(newtonCooling);
-			shopIdRankTimeScoreDao.update(shopIdRankTimeScoreEntity);
+			if(rankShopDao.findByShopId(shopIdRankTimeScoreEntity.getShopId())==null) {
+				shopIdRankTimeScoreDao.add(shopIdRankTimeScoreEntity);
+			}else {
+				shopIdRankTimeScoreDao.update(shopIdRankTimeScoreEntity);
+			}
 		}
-		long now = System.currentTimeMillis()-currentTimeMillis;
+		long now = (System.currentTimeMillis()-currentTimeMillis)/1000;
 		logger.info("牛顿冷却总耗时："+now+"s,共处理了"+list.size()+"家店");
 	}
 	
@@ -96,6 +118,8 @@ public class HttpGet {
 	}
 	
 	public List<RankShopInfo> parseData(String data) throws ParseException{
+		logger.info(data);
+		if(StringUtils.containsIgnoreCase(data,"maxResult")) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String format = simpleDateFormat.format(new Date());
 		Date rankTime = simpleDateFormat.parse(format);
@@ -117,8 +141,12 @@ public class HttpGet {
 		String jsonData = JSONArray.toJSONString(list);
 		redisScheduler.pushData(jsonData, format);
 		}
-		
 		return list;
+		}else {
+			return null;
+		}
+		
+		
 	}
 
 }

@@ -19,6 +19,7 @@ import com.dianping.model.DianPingInfo;
 import com.dianping.schedule.RedisScheduler;
 import com.dianping.util.DianPingOfflinerImpl;
 import com.dianping.util.JedisPoolConfigExtend;
+import com.dianping.util.URLUtils;
 import com.dianping.util.UserAgentUtils;
 import com.virjar.dungproxy.client.ippool.IpPoolHolder;
 import com.virjar.dungproxy.client.ippool.config.DungProxyContext;
@@ -52,6 +53,7 @@ public class RestaurantCrawler {
     	for (String string : findShopIdByStar) {
     		ids.add("http://www.dianping.com/shop/"+string);
 		}
+    	
         Site site = Site.me().addHeader("Cache-Control", "no-cache")
         		.addHeader("Host", "www.dianping.com")
         		.addHeader("Connection", "keep-alive")
@@ -60,7 +62,7 @@ public class RestaurantCrawler {
         		.addHeader("Accept-Language", "zh-CN,zh;q=0.9")
         		.addHeader("Cookie", "s_ViewType=10")
         		// .setHttpProxy(new HttpHost("127.0.0.1",8888))
-        		.addCookie("www.dianping.com", "_hc.v", "567d6b73-87bd-0529-d84f-ce567653edc7.1513747703")
+        		.addCookie("www.dianping.com", "_hc.v", "15ce575a-dc17-e895-e35a-5057c53da581.1517736391")
         		.addCookie("www.dianping.com", "cy", "1")
         		.addCookie("www.dianping.com", "cye", "shanghai")
 //        		.addCookie("www.dianping.com", "_lx_utm", "utm_source%3DBaidu%26utm_medium%3Dorganic")
@@ -69,8 +71,8 @@ public class RestaurantCrawler {
 //        		.addCookie("www.dianping.com", "_lxsdk_s", "160d3b2ed33-59f-f5d-17c%7C%7C18")
         		//        		.setDisableCookieManagement(true)
                 .setRetryTimes(99) // 就我的经验,这个重试一般用处不大,他是httpclient内部重试
-                .setTimeOut(60000)// 在使用代理的情况下,这个需要设置,可以考虑调大线程数目
-                .setSleepTime(2000)// 使用代理了之后,代理会通过切换IP来防止反扒。同时,使用代理本身qps降低了,所以这个可以小一些
+                .setTimeOut(30000)// 在使用代理的情况下,这个需要设置,可以考虑调大线程数目
+                .setSleepTime(2000)// 使 用代理了之后,代理会通过切换IP 来防止反扒。同时,使用代理本身qps降低了,所以这个可以小一些
                 .setCycleRetryTimes(99)// 这个重试会换IP重试,是setRetryTimes的上一层的重试,不要怕三次重试解决一切问题。。
                 .setUseGzip(true)
                 .setUserAgent(UserAgentUtils.radomUserAgent())
@@ -95,8 +97,9 @@ public class RestaurantCrawler {
         create.setScheduler(redisScheduler)
         		.setDownloader(new WebMagicCustomOfflineProxyDownloader());
         		create.addUrl(ids.toArray(new String[0]));
-        		create.thread(150)
-                .run();
+        		create.addUrl(URLUtils.getUrlFromCategroy());
+        		create.thread(100)
+                .run(); 
         
     }
 

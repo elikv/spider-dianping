@@ -64,6 +64,9 @@ public class AlgorithmUtils {
 	 * 本期得分 = 上一期得分 x exp(-(冷却系数) x 间隔天数)  天数为1
 	 */
 	public static double NewtonCooling(double score,int x){
+		if(x==0) {
+			return score;
+		}
 		double pow = Math.pow(2.718,PARAM.doubleValue()*x);
 		return pow*score;
 	}
@@ -76,7 +79,7 @@ public class AlgorithmUtils {
 		if(scorelist.length == rankTimelist.length){
 			for (int i = 0; i < rankTimelist.length; i++) {
 				int daysBetween = daysBetween(rankTimelist[i], today());
-				double newtonCooling = NewtonCooling(Double.valueOf(scorelist[0]),daysBetween);
+				double newtonCooling = NewtonCooling(Double.valueOf(scorelist[i]),daysBetween);
 				sum = sum + newtonCooling;
 			}
 		}else{
@@ -118,7 +121,6 @@ public class AlgorithmUtils {
 	        int day2 = aCalendar.get(Calendar.DAY_OF_YEAR);
 	        int day3 = day2+yearDay;
 	        int days=day3-day1;
-	        System.out.print(days);
 	        return days;
 	    }
 	
@@ -130,6 +132,6 @@ public class AlgorithmUtils {
 	}
 	
 	public static void main(String[] args) throws ParseException {
-		today();
+		System.out.println(daysBetween("2018-02-15",today()));
 	}
 }

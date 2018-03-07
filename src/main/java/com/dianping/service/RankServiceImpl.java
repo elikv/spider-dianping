@@ -68,6 +68,16 @@ public class RankServiceImpl {
 		}
 	}
 	
+	
+	public List<RankShopInfo>findNewtonCooling(String category,String start, String end){
+		Map<String,Object> map = new HashMap<String,Object>();
+			map.put("category", category);
+			map.put("start", start);
+			map.put("end", end);
+		List<RankShopInfo> list = rankShopDao.findNewtonCooling(map);
+		return list;
+	}
+	
 	public static void main(String[] args) {
 		AbstractApplicationContext ab = new ClassPathXmlApplicationContext("classpath:application*.xml");
 		RankServiceImpl bean = ab.getBean(RankServiceImpl.class);

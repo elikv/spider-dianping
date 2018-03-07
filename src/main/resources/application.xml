@@ -23,43 +23,51 @@
         </property>
     </bean>
     
-   
+  
+	
+	
+	
+	   <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+        init-method="init" destroy-method="close">
+        <!-- 基本属性 url、user、password -->
+        <property name="url" value="${jdbc_url}" />
+        <property name="username" value="${jdbc_username}" />
+        <property name="password" value="${jdbc_password}" />
 
-	<!-- 配置数据源 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-		
-	   <!-- 使用properties来配置 -->
-		<property name="driverClassName">
-			<value>${jdbc_driverClassName}</value>
-		</property>
-		<property name="url">
-			<value>${jdbc_url}</value>
-		</property>
-		<property name="username">
-			<value>${jdbc_username}</value>
-		</property>
-		<property name="password">
-			<value>${jdbc_password}</value>
-		</property>
-		<property name="maxActive" value="20" />
-        <property name="initialSize" value="1" />
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="10" />
+        <property name="minIdle" value="10" />
+        <property name="maxActive" value="20" />
+
+        <!-- 配置获取连接等待超时的时间 -->
         <property name="maxWait" value="60000" />
-        <property name="minIdle" value="1" />
 
-        <property name="validationQuery" value="SELECT 1" /> <!-- 验证连接是否成功, SQL SELECT 指令至少要返回一行  (测试/验证连接池连接的SQL语句也因数据库而异)-->
-        <property name="testOnBorrow" value="false" /> <!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 --> 
-        <property name="testOnReturn" value="false" /> <!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 -->
-        <property name="minEvictableIdleTimeMillis" value="300000" /> <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-         <!-- 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。 -->
-        <property name="testWhileIdle" value="true" />
         <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="30000" />
-        <property name="maxOpenPreparedStatements" value="20" /><!-- 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。 -->
-        <!-- 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql5.5以下的版本中没有PSCache功能，建议关闭掉。5.5及以上版本有PSCache，建议开启。 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+
+        <property name="validationQuery" value="SELECT 'x' FROM DUAL" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+
+        <!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
         <property name="poolPreparedStatements" value="true" />
-        <!-- 指定每个PSCache连接上PSCache的大小 -->
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
-	</bean>
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+            value="20" />
+
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat,wall" />
+    </bean>
+	
+	
+	
+	
+	
+	
+	
 
 	<!-- 自动扫描了所有的XxxxMapper.xml对应的mapper接口文件，这样就不用一个一个手动配置Mpper的映射了，只要Mapper接口类和Mapper映射文件对应起来就可以了。 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

@@ -19,8 +19,6 @@ import com.github.pagehelper.PageInfo;
 @RequestMapping("")
 public class RecommendController {
 	@Autowired
-	private DianPingDAO dianpingDao;
-	@Autowired
 	private DianPingServiceImpl dianpingService;
 	
 	

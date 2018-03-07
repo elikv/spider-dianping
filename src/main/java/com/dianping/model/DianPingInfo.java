@@ -243,9 +243,15 @@ public class DianPingInfo  implements AfterExtractor   {
 		address = address.trim();
 		cookStyle = cookStyle.trim();
 		tag = tag.trim();
+		if(!StringUtils.isEmpty(good)) {
 		good = good.trim().replace("(", "").replace(")", "");
+		}
+		if(!StringUtils.isEmpty(common)) {
 		common = common.trim().replace("(", "").replace(")", "");
+		}
+		if(!StringUtils.isEmpty(bad)) {
 		bad = bad.trim().replace("(", "").replace(")", "");
+		}
 	}
 
 	

@@ -19,11 +19,11 @@
 	<div class="container">
 		<div class="navbar-header">
 			<!-- <div class="navbar-brand">人气美食推荐系统</div> -->
-		<a href="${pageContext.request.contextPath}/recommend" class="navbar-brand"></a>
+		<a href="${pageContext.request.contextPath}/newCooling" class="navbar-brand"></a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li><a href="${pageContext.request.contextPath}/recommend">首页</a></li>
-			<li><a href="#">今日推荐</a></li>
+			<li><a href="${pageContext.request.contextPath}/newCooling">首页</a></li>
+			<li><a href="${pageContext.request.contextPath}/recommend">上榜次数排序</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="#">登陆</a></li>
@@ -62,18 +62,17 @@
 				<img src="${list.defaultPic}" alt="img"></div>
 			<div class="col-sm-8">
 				<a href="${list.url}" class="tittle">${list.shopName}</a>
+				<span class='pull-right'>${list.categoryId}</span>
 			<ul class="food-info">
            	<li class="grade">
            		口味:<span>${list.refinedScore1}</span>
            		环境:<span>${list.refinedScore2}</span>
            		服务:<span>${list.refinedScore3}</span>
-           		<span class='pull-right'>${list.categoryId}</span>
             </li>
         	<br>
        	 	<li><span>人均：</span>${list.avgPrice}元</li>
        		 <br>
        	 	<li><span>地址 :</span>${list.address}</li>
-       	 	<span class='pull-right'>打分:${list.categoryId}</span>
         	<br>
         	<button type="button" class="btn btn-info btn-sm">加入收藏</button>
     		</ul>

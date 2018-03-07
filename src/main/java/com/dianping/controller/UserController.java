@@ -31,6 +31,8 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private Jdbc jdbc;
+	@Autowired
+	private RestaurantCrawler restaurantCrawler;
 	
 		@RequestMapping( "/" )
 		public String showIndex(){
@@ -38,11 +40,9 @@ public class UserController {
 		}
 		
 		@RequestMapping("/trigger")
-		public void trigger(){
-			AbstractApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:application*.xml");
-	        final RestaurantCrawler restaurantCrawler = applicationContext.getBean(RestaurantCrawler.class);
+		public void trigger() throws IllegalAccessException, InvocationTargetException, SQLException{
+			jdbc.removeDuplicate();
 	        restaurantCrawler.crawl();
-	        applicationContext.close();
 		}
 		
 		@RequestMapping("/removeDuplicate")

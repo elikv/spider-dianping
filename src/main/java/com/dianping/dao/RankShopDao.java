@@ -37,5 +37,10 @@ public interface RankShopDao {
      * @return
      */
     public List<ShopIdRankTimeScoreEntity> findShopIdRankTimeScore();
+    
+    /**
+     * 显示数据 牛顿冷却定律排序
+     */
+    public List<RankShopInfo>findNewtonCooling(Map<String,Object>map);
    
 }

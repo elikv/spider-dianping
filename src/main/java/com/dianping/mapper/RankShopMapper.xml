@@ -42,7 +42,7 @@
 	
 	<select id='findShopIdRankTimeScore'  resultType="com.dianping.model.ShopIdRankTimeScoreEntity">
 	select shopid,GROUP_CONCAT(a.score ORDER BY a.rankTime DESC SEPARATOR ',') as 'score',
-GROUP_CONCAT(a.rankTime ORDER BY a.rankTime DESC SEPARATOR ',') as 'ranTime'
+GROUP_CONCAT(a.rankTime ORDER BY a.rankTime DESC SEPARATOR ',') as 'rankTime'
  from 
 (SELECT shopid,rankTime,count(*) * 100 - sum(rankNo) AS score	
 FROM t_rank_shop
@@ -53,6 +53,20 @@ GROUP BY
 		 GROUP BY shopid
 	</select>
 	
+		<select id="findNewtonCooling" resultType="com.dianping.model.RankShopInfo" >
+	select tdd.`name` as categoryId,r.shopid,t.shopName,t.refinedScore1,t.refinedScore2,t.refinedScore3,t.address,t.defaultPic,t.avgPrice,coolingScore as rankNo from t_shopId_rankTime_score r  inner JOIN t_rank_shop t
+		ON t.shopId = r.shopid AND t.rankTime = left(r.ranktime,10) LEFT JOIN t_dic_data tdd on tdd.code=t.categoryId where 1=1
+<if test="category!=null and category!=''">
+			and t.categoryId = #{category}
+		</if>
+		<if test="start!=null and start!=''">
+			and t.avgPrice &gt;= #{start,jdbcType=DOUBLE}
+		</if>
+		<if test="end!=null and end!=''">
+			and t.avgPrice &lt;= #{end,jdbcType=DOUBLE}
+		</if>
+GROUP BY shopid ORDER BY coolingScore desc
+</select>
 	
 	
 	
